@@ -4,7 +4,7 @@ Linux CentOS 7 계열에  Khaiii 형태소 분석기를 설치하고 사용하�
 
 ## Python 3.x 설치
 
-#### python 설치
+### python 설치
 
 Khaiii 형태소 분석기를 설치하기 위해서는 python 3 이상이 깔려 있어야한다.
 
@@ -23,7 +23,7 @@ ln -s /bin/python3.6 /bin/python3
 ln -s /bin/pip3.6 /bin/pip
 ```
 
-#### yum 에러 해결
+### yum 에러 해결
 
 위까지 진행하면 python 이 3.6  버전으로 잘 실행 되지만 `yum` 에서 에러가 발생한다. yum 이 python 2.x 버전의 문법을 사용하기 때문이다. 그래서 yum 이 phython 2.x 버전을 사용하도록 2 가지 파일의 설정을 바꿔 줘야한다.
 
@@ -45,7 +45,7 @@ vim /usr/libexec/urlgrabber-ext-down
 
 여기까지 진행하면 Python 3.x 설치와 관련된 모든 작업을 완료한 것이다.
 
-#### CMake 설치
+### CMake 설치
 
 나중에 khaiii 소스를 컴파일하기 위한 빌드 툴인 CMake 를 설치한다.
 
@@ -59,14 +59,14 @@ pip intall cmake
 
 khaiii 소스를 받아서 컴파일 하려면 gcc 가 필요하다. 그 중에서도 4.9 이상의 버전이 필요하므로 아래와 같이 설치한다.
 
-#### gcc 설치
+### gcc 설치
 
 ```bash
 sudo yum install -y centos-release-scl-rh
 sudo yum install -y devtoolset-4-gcc devtoolset-4-gcc-c++
 ```
 
-#### 활성화 및 버전 확인
+### 활성화 및 버전 확인
 
 설치가 되었다고 바로 되는 것은 아니고 아래와 같이 활성화 시켜줘야 한다. 계정 혹은 터미널이 바뀌거나 재접속 할시에는 다시 활성화 시켜줘야한다- 쓸 이 있다면. ~~매번 자동으로 활성화 시키는 방법은 알아보기 귀찮아요.~~
 
@@ -83,13 +83,13 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 이제 모든 도구들이 갖추어졌으므로 khaiii 소스를 다운받기위해 git를 설치한다.
 
-#### git 설치
+### git 설치
 
 ```bash
 sudo yum install git
 ```
 
-#### khaiii 소스 다운로드
+### khaiii 소스 다운로드
 
 적당한 디렉토리로 이동하여 소스를 클론 뜬다.
 
@@ -97,7 +97,7 @@ sudo yum install git
 git clone https://github.com/kakao/khaiii.git
 ```
 
-#### 설치 준비
+### 설치 준비
 
 ```bash
 cd khaiii
