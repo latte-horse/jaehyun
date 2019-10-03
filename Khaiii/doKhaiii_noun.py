@@ -17,7 +17,7 @@ inputPath = sys.argv[1]
 outputPath = sys.argv[2]
 
 # 입력 파일 읽기 및 기본 형태소 분석 수행
-f = open(inputPath, "r")
+f = open(inputPath, "r", encoding='utf-8-sig')
 strList = []
 while True:
     line = f.readline()
