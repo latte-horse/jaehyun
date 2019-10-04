@@ -2,7 +2,7 @@
 
 Linux CentOS 7 계열에  Khaiii 형태소 분석기를 설치하고 사용하는 방법
 
-## Python 3.x 설치
+## Python 3.6 설치
 
 ### python 설치
 
