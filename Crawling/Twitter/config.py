@@ -4,7 +4,7 @@
 #	https://developer.twitter.com/en/apps
 #--------------------------------------------------------------------------------
 
-consumer_key = "X"
-consumer_secret = "X"
-access_key = "X"
-access_secret = "X"
+consumer_key = "XxXxXxxXXXxxxxXXXxXX"
+consumer_secret = "xXXXXXXXXxxxxXxXXxxXxxXXxXxXxxxxXxXXxxxXXx"
+access_key = "XXXXXXXX-xxXXxXXxxXxxxXxXXxXxXxXxxxXxxxxXxXXxXxxXX"
+access_secret = "XxXXXXXXXXxxxXXXxXXxXxXxxXXXXXxXxxXXXXx"
