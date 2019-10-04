@@ -101,6 +101,10 @@ for file in fileList :
 # 결과 파일로 출력
 f = open(outputPath, "w")
 for unitList in unitListList :
-    for unit in unitList :
-        f.writelines(unit + "\n")
+    nMaxIdx = len(unitList) - 1
+    for i, unit in enumerate(unitList) :
+        delim = ""
+        if i != nMaxIdx : delim = "\t"
+        f.write(unit + delim)
+    f.write("\n")
 f.close()
