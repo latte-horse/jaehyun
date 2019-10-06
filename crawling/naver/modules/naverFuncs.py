@@ -56,7 +56,7 @@ def getNewsList(search_words, cnt):
                 'title' : re.sub("<[^>]*>", '', news['title']),
                 'link' : news['link']})
         
-        #어떤 검색어로 검색한 결과인지를 포함하여 반환
+        #결과 반환
         return resultList
 
     else:
