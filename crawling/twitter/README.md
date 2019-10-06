@@ -23,11 +23,11 @@ access_secret = "FILLME"
 
 ## 소스 구성
 
-- tw_crawling.py : 메인 코드
+- `tw_crawling.py` : 메인 코드
 
-- tw_woeid.py : 지역명을 기반으로 location code를 반환해 주는 코드
-- tw_trends.py : 트위터 실시간 인기 트렌드 10개를 반환해 주는 코드
-- tw_search.py : 입력된 키워드를 바탕으로 100개의 트윗을 반환해 주는 코드
+- `tw_woeid.py` : 지역명을 기반으로 location code를 반환해 주는 코드
+- `tw_trends.py` : 트위터 실시간 인기 트렌드 10개를 반환해 주는 코드
+- `tw_search.py` : 입력된 키워드를 바탕으로 100개의 트윗을 반환해 주는 코드
 
 ## 참조 목록
 
