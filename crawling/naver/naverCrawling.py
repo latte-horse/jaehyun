@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#naver_crawling.py
+#naverCrawling.py
 
 from modules import naverFuncs
 import json
