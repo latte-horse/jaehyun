@@ -4,6 +4,7 @@
 import requests
 from operator import itemgetter
 import re
+from bs4 import BeautifulSoup
 
 #--------------------------------------------------------------------------
 # Twitter API를 이용한 실시간 트렌드 10개
@@ -36,9 +37,34 @@ def getAPITrends(twitter, woeid):
 
 
 #--------------------------------------------------------------------------
-# 비로그인 GET 방식을 이용한 수동 수집 꼼수 트렌드 10개 (미완)
+# 비로그인 GET 방식을 이용한 수동 수집 꼼수 트렌드 10개
 #--------------------------------------------------------------------------
 def getWebTrends(woeid):
-    data = requests.get("https://twitter.com/i/trends?id=" + woeid).json()
-    #ToDo: 파싱 작업 필요. 추후 구현.
+    trends_html = requests.get(
+        "https://twitter.com/i/trends?id=" + "23424868").json()['module_html']
+    soup = BeautifulSoup(trends_html, 'html.parser')
+    tag_list = soup.select('.trend-name')
+
+    trend_list = []
+    for tag in tag_list:
+        trend = re.sub(r"^[#]", "", tag.text)
+        trend = re.sub(r"_", " ", trend)
+        trend_list.append(trend)
     
+    return trend_list
+
+
+#--------------------------------------------------------------------------
+# module test code - getWebTrends()
+#--------------------------------------------------------------------------
+if __name__ == "__main__":
+    trends_html = requests.get(
+        "https://twitter.com/i/trends?id=" + "23424868").json()['module_html']
+    soup = BeautifulSoup(trends_html, 'html.parser')
+    tag_list = soup.select('.trend-name')
+
+    for tag in tag_list:
+        trend = re.sub(r"^[#]", "", tag.text)
+        trend = re.sub(r"_", " ", trend)
+        print(trend)
+

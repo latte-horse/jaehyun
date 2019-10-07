@@ -21,8 +21,9 @@ twitter = Twitter(auth = OAuth(
 #--------------------------------------------------------------------------
 # 실시간 트렌드 10개 추출
 #--------------------------------------------------------------------------
-trend_list = twTrends.getAPITrends(twitter, woeid)
-# for trend in trendList: print(trend)
+#trend_list = twTrends.getAPITrends(twitter, woeid)
+trend_list = twTrends.getWebTrends(woeid)
+#for trend in trend_list: print(trend)
 
 #--------------------------------------------------------------------------
 # 키워드당 100개씩의 tweet 추출
