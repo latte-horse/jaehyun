@@ -14,7 +14,6 @@ if __name__ != '__main__':
 # 실시간 인기 검색어 cnt개 반환
 #--------------------------------------------------------------------------
 def getKeywords(cnt):
-    naverKeywords = []
     url_naver = "http://www.naver.com"
 
     html = requests.get(url_naver).text
@@ -22,21 +21,22 @@ def getKeywords(cnt):
 
     listHtml = soup.select('.ah_roll_area .ah_k')
 
-    #naverKeywords 변수에 keyword 추가
+    #keyword 추출
+    naver_keywords = []
     for keyword in listHtml:
-        naverKeywords.append(keyword.get_text())
+        naver_keywords.append(keyword.get_text())
 
     #cnt 개의 결과만을 반환
-    return naverKeywords[:cnt]
+    return naver_keywords[:cnt]
 
 
 #--------------------------------------------------------------------------
 # 검색어로 뉴스를 검색하여 cnt개 반환
 #--------------------------------------------------------------------------
 def getNewsList(search_words, cnt):
-    encText = urllib.parse.quote(search_words)
+    enc_text = urllib.parse.quote(search_words)
     url = "https://openapi.naver.com/v1/search/news.json?query={0}&display={1}&sort={2}".format(
-        encText, cnt, "date"
+        enc_text, cnt, "date"
     ) 
 
     #naver API를 이용하여 검색
@@ -47,17 +47,17 @@ def getNewsList(search_words, cnt):
     rescode = response.getcode()
     if(rescode==200):
         response_body = response.read()
-        newsList = json.loads(response_body.decode('utf-8'))['items']
+        news_list = json.loads(response_body.decode('utf-8'))['items']
 
         #title과 link만 추출하여 담기
-        resultList = []
-        for news in newsList:
-            resultList.append({ 
+        result_list = []
+        for news in news_list:
+            result_list.append({ 
                 'title' : re.sub("<[^>]*>", '', news['title']),
                 'link' : news['link']})
         
         #결과 반환
-        return resultList
+        return result_list
 
     else:
         print("Error Code:" + rescode)
@@ -68,7 +68,7 @@ def getNewsList(search_words, cnt):
 # module test code
 #--------------------------------------------------------------------------
 if __name__ == "__main__":
-    naverKeywords = getKeywords(10)
-    print(naverKeywords)
+    naver_keywords = getKeywords(10)
+    print(naver_keywords)
     import config
-    print(getNewsList(naverKeywords[0], 10))
+    print(getNewsList(naver_keywords[0], 10))

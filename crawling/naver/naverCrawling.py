@@ -3,7 +3,7 @@
 
 from modules import naverFuncs
 import json
-import unicodedata
+
 
 #--------------------------------------------------------------------------
 # 실시간 인기 검색어 10개 추출
