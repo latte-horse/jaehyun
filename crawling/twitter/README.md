@@ -6,6 +6,8 @@
 
 모든 소스를 다운 받고 `tw_crawling.py`를 실행시키면 된다.  단 `config.py`는 개인 키 정보가 기록되어 있어 목록에 빠져있다. 아래와 같이 `config.py`를 작성해 주어야 한다.
 
+***modules/config.py***
+
 ```python
 #config.py
 
@@ -24,10 +26,11 @@ access_secret = "FILLME"
 ## 소스 구성
 
 - `tw_crawling.py` : 메인 코드
-
-- `tw_woeid.py` : 지역명을 기반으로 location code를 반환해 주는 코드
-- `tw_trends.py` : 트위터 실시간 인기 트렌드 10개를 반환해 주는 코드
-- `tw_search.py` : 입력된 키워드를 바탕으로 100개의 트윗을 반환해 주는 코드
+- `modules/__init__.py`
+- `modules/config.py` : API Key
+- `modules/twWoeid.py` : 지역명을 기반으로 location code를 반환해 주는 코드
+- `modules/twTrends.py` : 트위터 실시간 인기 트렌드 10개를 반환해 주는 코드
+- `modules/twSearch.py` : 입력된 키워드를 바탕으로 100개의 트윗을 반환해 주는 코드
 
 ## 참조 목록
 

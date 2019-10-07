@@ -1,11 +1,8 @@
 #!/usr/bin/python
 #twCrawling.py
 
-from twitter import *
-import config
-import twWoeid
-import twTrends
-import twSearch
+from twitter import Twitter, OAuth
+from modules import *
 
 #--------------------------------------------------------------------------
 # 지역코드 받아오기
