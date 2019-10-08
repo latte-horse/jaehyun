@@ -15,15 +15,15 @@ naver_keywords = naverFuncs.getKeywords(10)
 # 검색어당 30개씩의 뉴스 제목과 링크 추출
 #--------------------------------------------------------------------------
 naver_list = []
-for search_words in naver_keywords[:2]: #테스트로 2개만
+for search_words in naver_keywords[:3]: #테스트로 2개만
     news_list = naverFuncs.getNewsList(search_words, 3) #테스트로 3개만
-    naver_list.append({'search_words' : search_words, 'items' : news_list})
+    naver_list.append({'keyword' : search_words, 'items' : news_list})
 
 #--------------------------------------------------------------------------
-# 결과 확인
+# 결과 출력(확인용)
 #--------------------------------------------------------------------------
 for elem in naver_list:
-    print("검색어: " + elem['search_words'])
+    print("검색어: " + elem['keyword'])
     for news in elem['items']:
         print(news)
     print("")
