@@ -23,5 +23,5 @@ for search_words in naver_keywords[:3]: #테스트로 3개만
 #--------------------------------------------------------------------------
 # 결과 확인(output.json)
 #--------------------------------------------------------------------------
-with open("output.json", "w" ,encoding = "utf-8") as fp:
+with open("output.json", "w" , encoding = "utf-8") as fp:
     json.dump(naver_list, fp, ensure_ascii=False, indent="\t")
