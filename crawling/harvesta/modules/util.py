@@ -18,24 +18,24 @@ def getBody(url):
     # if p.search(url):
     #     url = re.sub(r"\?f=o", "", url)
 
-    res = None
+    code = 0
+    text = ""
     try:
         res = requests.get(url, headers=headers)
     except requests.exceptions.RequestException as e:
         print(e)
-        return {'code' : 1, 'text' : e}
+        code = 1; text = e
 
-    if res == None or res.status_code != 200:
-        return {'code' : 2,  'text' : "Fail to Connect"}
+    else:  
+        res = res.content
+        soup = BeautifulSoup(res, 'html.parser')
+        body = soup.select_one("body")
+        body = str(body)
+        body = re.sub("<body.*>", "", body)
+        body = re.sub("</body>", "", body)
+        code = 0; text = body
 
-    res = res.content
-    soup = BeautifulSoup(res, 'html.parser')
-    body = soup.select_one("body")
-    body = str(body)
-    body = re.sub("<body.*>", "", body)
-    body = re.sub("</body>", "", body)
-
-    return {'code' : 0 , 'text' : body}
+    return {'code' : code , 'text' : text}
 
 
 #--------------------------------------------------------------------------

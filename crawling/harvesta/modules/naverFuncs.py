@@ -43,25 +43,28 @@ def getNewsList(search_words, cnt):
     request = urllib.request.Request(url)
     request.add_header("X-Naver-Client-Id", config.clientID)
     request.add_header("X-Naver-Client-Secret", config.clientSecret)
-    response = urllib.request.urlopen(request)
-    rescode = response.getcode()
-    if(rescode == 200):
-        response_body = response.read()
-        news_list = json.loads(response_body.decode('utf-8'))['items']
-
-        #title과 link만 추출하여 담기
-        result_list = []
-        for news in news_list:
-            result_list.append({ 
-                'title' : re.sub("<[^>]*>", '', news['title']),
-                'link' : news['originallink']})
-        
-        #결과 반환
-        return result_list
-
+    try:
+        response = urllib.request.urlopen(request)
+    except Exception as e:
+        print(e)
     else:
-        print("Error Code:" + rescode)
-        exit(1)
+        rescode = response.getcode()
+        if(rescode == 200):
+            response_body = response.read()
+            news_list = json.loads(response_body.decode('utf-8'))['items']
+
+            #title과 link만 추출하여 담기
+            result_list = []
+            for news in news_list:
+                result_list.append({ 
+                    'title' : re.sub("<[^>]*>", '', news['title']),
+                    'link' : news['originallink']})
+            
+        else:
+            print("Error Code:" + rescode)
+   
+    #결과 반환 (없으면 없는대로)
+    return result_list
 
 
 #--------------------------------------------------------------------------
@@ -71,4 +74,4 @@ if __name__ == "__main__":
     naver_keywords = getKeywords(10)
     print(naver_keywords)
     import config
-    print(getNewsList(naver_keywords[0], 1)) #1 키워드 1 뉴스 테스트
+    print(getNewsList(naver_keywords[0], 3)) #1 키워드 1 뉴스 테스트

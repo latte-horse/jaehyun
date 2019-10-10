@@ -22,30 +22,34 @@ def getNewsList(search_words, cnt):
     news_list = []
     start = 0
     while len(news_list) < cnt:
-        res = requests.get(
-            base_url + enc_text + suffix1 + str(start) + suffix2).text
-            # headers=header).text
-        # with open("text.html", "w", encoding="utf-8") as fp:
-        #     fp.write(res)
-        if re.compile(r"Our systems have detected").search(res):
-            return -1 #블럭 당했으므로 caller 에게 알림
+        try:
+            res = requests.get(
+                base_url + enc_text + suffix1 + str(start) + suffix2)
+                # headers=header).text
+            # with open("text.html", "w", encoding="utf-8") as fp:
+            #     fp.write(res)
+        except Exception as e:
+            print(e)
+        else:
+            if re.compile(r"Our systems have detected").search(res.text):
+                return -1 #블럭 당했으므로 caller 에게 알림
 
-        soup =  BeautifulSoup(res, 'html.parser')
-        cand_list = soup.select('#ires ol div table h3 a')
-        if len(cand_list) == 0: break
-        for cand in cand_list:
-            if len(news_list) >= cnt: break
-            m = p.search(cand.get('href'))
-            if m:
-                link = m.group()[3:-3]
-                news_list.append({
-                    'title' : cand.text,
-                    'link' : urllib.parse.unquote(link).strip() })
-            else:
-                print("skipped: " + cand.get('href'))
-        
-        start += 10
-        time.sleep(0.5)
+            soup =  BeautifulSoup(res.content, 'html.parser')
+            cand_list = soup.select('#ires ol div table h3 a')
+            if len(cand_list) == 0: break
+            for cand in cand_list:
+                if len(news_list) >= cnt: break
+                m = p.search(cand.get('href'))
+                if m:
+                    link = m.group()[3:-3]
+                    news_list.append({
+                        'title' : cand.text,
+                        'link' : urllib.parse.unquote(link).strip() })
+                else:
+                    print("skipped: " + cand.get('href'))
+        finally:
+            start += 10
+            time.sleep(0.5)
 
     return news_list
 

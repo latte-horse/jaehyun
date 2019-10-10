@@ -81,6 +81,7 @@ hhmm = os.path.join(yyMMdd, hhmm)
 if os.path.isdir(hhmm): shutil.rmtree(hhmm)
 if not(os.path.isdir(hhmm)): os.makedirs(hhmm)
 
+
 #--------------------------------------------------------------------------
 # html 저장
 #--------------------------------------------------------------------------
@@ -89,7 +90,7 @@ logfp = open(os.path.join(hhmm, "log.txt"), "w", encoding="utf-8")
 print("저장 시작")
 count = len(dfloaded.index)
 for i in range(count):
-    print("{} / {} 저장중".format(i, count))
+    print("{} / {} 저장중".format(i+1, count))
     row = dfloaded.iloc[i]
     # keyword 폴더 생성 ex) D_K_01
     dirpath = "%s_K_%02d" % (initialDic[row['source']], row['knum'] + 1)

@@ -34,16 +34,20 @@ def getNewsList(search_words, cnt):
     news_list = []
     i = 0
     while len(news_list) < cnt: # cnt개 채울 때 까지
-        url = requests.get(furl + enc_text + surl + str(i) + lurl).text
-        soup = BeautifulSoup(url, 'html.parser')
-        urlname = soup.select(".f_link_b")
-        urllink = soup.select("a[class*=f_link_b]")
-        if len(urlname) == 0: break
-        for list1, list2 in zip(urlname, urllink):
-            if len(news_list) >= cnt: break # cnt개 채우면 중단
-            news_list.append({"title" : list1.text, "link" : list2.get('href')})
-
-        i += 1
+        try:
+            res = requests.get(furl + enc_text + surl + str(i) + lurl)
+        except Exception as e:
+            print(e)
+        else:
+            soup = BeautifulSoup(res.content, 'html.parser')
+            urlname = soup.select(".f_link_b")
+            urllink = soup.select("a[class*=f_link_b]")
+            if len(urlname) == 0: break
+            for list1, list2 in zip(urlname, urllink):
+                if len(news_list) >= cnt: break # cnt개 채우면 중단
+                news_list.append({"title" : list1.text, "link" : list2.get('href')})
+        finally:
+            i += 1
 
     return news_list
 
@@ -54,5 +58,5 @@ def getNewsList(search_words, cnt):
 if __name__ == "__main__":
     daum_keywords = getKeywords()
     print(daum_keywords)
-    print(getNewsList(daum_keywords[0], 1)) #1 키워드 1 뉴스 테스트
+    print(getNewsList(daum_keywords[0], 3)) #1 키워드 1 뉴스 테스트
 
