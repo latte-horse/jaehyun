@@ -45,7 +45,7 @@ def getNewsList(search_words, cnt):
     request.add_header("X-Naver-Client-Secret", config.clientSecret)
     response = urllib.request.urlopen(request)
     rescode = response.getcode()
-    if(rescode==200):
+    if(rescode == 200):
         response_body = response.read()
         news_list = json.loads(response_body.decode('utf-8'))['items']
 

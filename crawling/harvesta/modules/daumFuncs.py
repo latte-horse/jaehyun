@@ -41,8 +41,9 @@ def getNewsList(search_words, cnt):
         soup = BeautifulSoup(url,'html.parser')
         urlname = soup.select(".f_link_b")
         urllink = soup.select("a[class*=f_link_b]")
+        if len(urlname) == 0: break
         for list1, list2 in zip(urlname, urllink):
-            if len(news_list) >= cnt: break; # cnt개 채우면 중단
+            if len(news_list) >= cnt: break # cnt개 채우면 중단
             news_list.append({"title" : list1.text, "link" : list2.get('href')})
 
         i += 1

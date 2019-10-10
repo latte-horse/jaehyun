@@ -22,14 +22,14 @@ def getNewsList(search_words, cnt):
     start = 0
     while len(news_list) < cnt:
         res = requests.get(base_url + enc_text + suffix1 + str(start) + suffix2).text
-        f = open("sample.html", "w", encoding="utf-8")
-        f.write(res)
-        f.close()
+        if re.compile(r"Our systems have detected").search(res):
+            return -1 #블럭 당했으므로 caller 에게 알림
+
         soup =  BeautifulSoup(res, 'html.parser')
         cand_list = soup.select('#ires ol div table h3 a')
-        if len(cand_list) == 0: break;
+        if len(cand_list) == 0: break
         for cand in cand_list:
-            if len(news_list) >= cnt: break;
+            if len(news_list) >= cnt: break
             m = p.search(cand.get('href'))
             if m:
                 link = m.group()[3:-3]
@@ -49,5 +49,10 @@ def getNewsList(search_words, cnt):
 # module test code - getNewsList()
 #--------------------------------------------------------------------------
 if __name__ == "__main__":
-    news_list = getNewsList("검찰 개혁", 11) # 뉴스 11개 테스트
-    print(news_list) 
+    # news_list = getNewsList("검찰 개혁", 3) # 뉴스 11개 테스트
+    # print(news_list) 
+    f = open("google_block.html", "r", encoding="utf-8")
+    html = f.read()
+    m = re.compile(r"Our systems have detected").search(html)
+    if m:
+        print(m)
