@@ -7,8 +7,14 @@ from bs4 import BeautifulSoup
 import re
 
 def insertDFRow(df, keyword_source, keywords, i, news_source, news_list):
-    for j, news in enumerate(news_list):
-        df.loc[len(df.index)] = [keyword_source, keywords, i, news_source, j, news['title'], news['link']]
+    if news_source != 'Twitter':
+        for j, news in enumerate(news_list):
+            df.loc[len(df.index)] = [
+                keyword_source, keywords, i, news_source, j, news['title'], news['link']]
+    else:
+        for j, tweets in enumerate(news_list):
+            df.loc[len(df.index)] = [
+                keyword_source, keywords, i, news_source, j, "", tweets]
 
         
 def getBody(url):

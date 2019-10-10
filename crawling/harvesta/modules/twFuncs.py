@@ -79,11 +79,18 @@ def getWebTrends(woeid):
 # 키워드를 받아 검색하여 cnt개의 tweet 내용을 list로 반환하는 함수
 #--------------------------------------------------------------------------
 def getTweets(twitter, keyword, cnt):
-    tweet_list = []
+    # tweet_list = []
     query = twitter.search.tweets(q = keyword, count = cnt)
     #print("Search complete (%.3f seconds)" % (query["search_metadata"]["completed_in"]))
+    # for result in query["statuses"]:
+    #     tweet_list.append(result["text"])
+
+    # 트위터의 경우 매우 짧은 문장이기때문에 리스트로 만들지 않고 한 문자열로 합친 후
+    # 일관성 있는 처리를 위해 1개짜리 리스트를 만들어 리턴한다
+    tweets =""
     for result in query["statuses"]:
-        tweet_list.append(result["text"])
+        tweets = tweets + result["text"] + "\n"
+    tweet_list = [tweets]
 
     return tweet_list
 
