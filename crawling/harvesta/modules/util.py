@@ -27,7 +27,7 @@ def getBody(url):
     code = 0
     text = ""
     try:
-        res = requests.get(url, headers=headers)
+        res = requests.get(url, headers=headers, timeout=10)
     except requests.exceptions.RequestException as e:
         print(e)
         code = 1; text = e

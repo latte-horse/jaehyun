@@ -6,6 +6,7 @@ import requests
 import re
 from bs4 import BeautifulSoup
 import time
+import random
 
 
 #--------------------------------------------------------------------------
@@ -49,7 +50,9 @@ def getNewsList(search_words, cnt):
                     print("skipped: " + cand.get('href'))
         finally:
             start += 10
-            time.sleep(0.5)
+            wait = round(random.uniform(0, 2.5), 1)
+            print("random sleep {} sec...".format(wait))
+            time.sleep(wait)
 
     return news_list
 

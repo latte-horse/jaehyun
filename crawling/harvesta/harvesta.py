@@ -11,6 +11,7 @@ import shutil
 from datetime import datetime
 import pandas as pd
 
+
 # --------------------------------------------------------------------------
 # 검색어 list 수집
 # --------------------------------------------------------------------------
@@ -53,7 +54,7 @@ for keyword_source in keywordsource_dic.keys():
             if google_list != -1:
                 util.insertDFRow(df, keyword_source, keywords, i, 'Google', daum_list)
             else:
-                print("!"*10 + " Google locks us " + "!"*10)
+                print("!"*10 + " Google blocks us " + "!"*10)
                 doGoogling = False
 
         # 트위터의 경우 특이 케이스로 다른 데이터 프레임에 담음
@@ -123,7 +124,7 @@ for i in range(count):
         fp.write("{}".format(body['text']))
         fp.flush(); fp.close()
     else:
-        errortext = "{}\t{}\t{}\n\n".format(i, row['url'], body['text'])
+        errortext = "{}\t{}\t{}\n\n".format(i+1, row['url'], body['text'])
         print(errortext)
         logfp.write(errortext)
         logfp.flush()
@@ -131,8 +132,6 @@ for i in range(count):
 # 트위터 저장
 #-------------------------------------
 count = len(dfloaded_tw)
-print(dfloaded_tw.loc[6])
-print(dfloaded_tw.loc[7])
 for i in range(count):
     print("Tweets: {} / {} 저장중".format(i+1, count))
     row = dfloaded_tw.iloc[i]
@@ -151,21 +150,3 @@ for i in range(count):
         fp.flush(); fp.close()
 
 print("저장 끝")
-
-    
-
-
-
-
-    
-   
-
-
-
-
-
-
-
-
-
-

@@ -43,9 +43,12 @@ access_secret = "ooOOooOOoooOooOoOoooOooOooooOooOooOooOooOooOoO"
 - `requirements.txt` : 설치해야할 패키지 목록
 - 기타
   - google_block.html : 구글에서 블럭 먹은 기념
-  - outout.csv : 뉴스 수집 후 확인용 output 샘플 파일
+  - output.csv : 뉴스 수집 후 확인용 output 샘플 파일
+  - output_tw.csv : 트위터 수집 후 확인용 output 샘플 파일
 
 ## 참조 목록
 
-- 월드 와이드 웹을 하염없이 헤엄침
+- https://pandas.pydata.org/
+- https://github.com/ideoforms/python-twitter-examples
+- https://developers.naver.com/docs/search/news/
 
