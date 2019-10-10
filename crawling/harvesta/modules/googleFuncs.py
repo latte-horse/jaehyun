@@ -16,12 +16,17 @@ def getNewsList(search_words, cnt):
     base_url = 'https://www.google.co.kr/search?q='
     suffix1 = "&tbm=nws&start="
     suffix2 = "&sa=N"
+    # header = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'}
     p = re.compile(r"\?q=.*&sa")
 
     news_list = []
     start = 0
     while len(news_list) < cnt:
-        res = requests.get(base_url + enc_text + suffix1 + str(start) + suffix2).text
+        res = requests.get(
+            base_url + enc_text + suffix1 + str(start) + suffix2).text
+            # headers=header).text
+        # with open("text.html", "w", encoding="utf-8") as fp:
+        #     fp.write(res)
         if re.compile(r"Our systems have detected").search(res):
             return -1 #블럭 당했으므로 caller 에게 알림
 
@@ -49,10 +54,5 @@ def getNewsList(search_words, cnt):
 # module test code - getNewsList()
 #--------------------------------------------------------------------------
 if __name__ == "__main__":
-    # news_list = getNewsList("검찰 개혁", 3) # 뉴스 11개 테스트
-    # print(news_list) 
-    f = open("google_block.html", "r", encoding="utf-8")
-    html = f.read()
-    m = re.compile(r"Our systems have detected").search(html)
-    if m:
-        print(m)
+    news_list = getNewsList("검찰 개혁", 3) # 뉴스 11개 테스트
+    print(news_list) 

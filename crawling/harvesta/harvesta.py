@@ -21,6 +21,7 @@ daum_search_list = daumFuncs.getKeywords()
 keywordsource_dic['NAVER'] = naver_search_list
 keywordsource_dic['DAUM'] = daum_search_list
 
+
 # --------------------------------------------------------------------------
 # 뉴스 URL list 수집
 # --------------------------------------------------------------------------
@@ -52,15 +53,15 @@ for keyword_source in keywordsource_dic.keys():
 
 print("모든 뉴스 수집 완료")
 
-# 테스트 저장(잦은 뉴스 수집으로 블럭 당할 수 있으니 테스트 중엔 저장한 정보를 읽어서 테스트)
+# 코드 작성 중 잦은 뉴스 수집으로 블럭 당할 수 있으니 테스트 중엔 결과를 저장
 df.to_csv("output.csv", mode='w', index=False)
 
-# 블럭을 피하려 테스트 중에는 저장된 파일 이용
+# 코드 작성 테스트 중 블럭을 피하려 테스트 중에는 저장된 파일 이용
 dfloaded = pd.read_csv('output.csv')
 
 
 #--------------------------------------------------------------------------
-# 약속된 디렉토리에 html 저장
+# 약속된 디렉토리 상위 구조 생성
 #--------------------------------------------------------------------------
 initialDic = {'NAVER' : 'N', 'DAUM' : 'D', 'Google' : 'G', 'Twitter' : 'T'}
 # output root 생성
@@ -80,17 +81,36 @@ hhmm = os.path.join(yyMMdd, hhmm)
 if os.path.isdir(hhmm): shutil.rmtree(hhmm)
 if not(os.path.isdir(hhmm)): os.makedirs(hhmm)
 
-for i in range(len(dfloaded.index)):
+#--------------------------------------------------------------------------
+# html 저장
+#--------------------------------------------------------------------------
+# 로그 파일
+logfp = open(os.path.join(hhmm, "log.txt"), "w", encoding="utf-8")
+print("저장 시작")
+count = len(dfloaded.index)
+for i in range(count):
+    print("{} / {} 저장중".format(i, count))
     row = dfloaded.iloc[i]
-    # keyword 폴더 생성
+    # keyword 폴더 생성 ex) D_K_01
     dirpath = "%s_K_%02d" % (initialDic[row['source']], row['knum'] + 1)
     dirpath = os.path.join(hhmm, dirpath)
     if not(os.path.isdir(dirpath)): os.makedirs(dirpath)
-    # 파일 저장
+    # 파일 저장 패스 생성 ex) D_01.txt
     filepath = "%s_%02d.txt" % (initialDic[row['target']], row['nnum'] + 1)
     filepath = os.path.join(dirpath, filepath)
-    with open(filepath, "w" , encoding = "utf-8") as fp:
-        fp.write("내일 하자")
+
+    with open(filepath, "w" , encoding="utf-8") as fp:
+        body = util.getBody(row['url'])
+        if body['code'] == 0:
+             fp.write("{}\n".format(row['title']))
+             fp.write("{}".format(body['text']))
+        else:
+            errortext = "{}\t{}\t{}\n\n".format(i, row['url'], body['text'])
+            print(errortext)
+            logfp.write(errortext)
+            logfp.flush()
+print("저장 끝")
+
     
 
 

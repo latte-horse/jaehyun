@@ -3,12 +3,9 @@
 
 import requests
 from bs4 import BeautifulSoup
-#import pandas as pd
 import urllib.request
-#from datetime import datetime
-#import lxml
 import json
-#import pathlib
+
 
 #--------------------------------------------------------------------------
 # 실시간 인기 검색어 cnt개 반환
@@ -38,7 +35,7 @@ def getNewsList(search_words, cnt):
     i = 0
     while len(news_list) < cnt: # cnt개 채울 때 까지
         url = requests.get(furl + enc_text + surl + str(i) + lurl).text
-        soup = BeautifulSoup(url,'html.parser')
+        soup = BeautifulSoup(url, 'html.parser')
         urlname = soup.select(".f_link_b")
         urllink = soup.select("a[class*=f_link_b]")
         if len(urlname) == 0: break
