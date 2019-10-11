@@ -6,6 +6,9 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
+#--------------------------------------------------------------------------
+# 데이터 프레임에 담는 헬퍼 함수
+#--------------------------------------------------------------------------
 def insertDFRow(df, keyword_source, keywords, i, news_source, news_list):
     if news_source != 'Twitter':
         for j, news in enumerate(news_list):
@@ -16,32 +19,23 @@ def insertDFRow(df, keyword_source, keywords, i, news_source, news_list):
             df.loc[len(df.index)] = [
                 keyword_source, keywords, i, news_source, j, "", tweets]
 
-        
+
+#--------------------------------------------------------------------------
+# URL의 <body>만 추출해오는 함수
+#--------------------------------------------------------------------------    
 def getBody(url):
+    # Browser fake
     headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 \
         (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'}
-    # p = re.compile(r"zdnet")
-    # if p.search(url):
-    #     url = re.sub(r"\?f=o", "", url)
-
-    code = 0
-    text = ""
     try:
         res = requests.get(url, headers=headers, timeout=10)
-    except requests.exceptions.RequestException as e:
+        soup = BeautifulSoup(res.content, 'html.parser')
+        code = 0; text = str(soup.html.body)
+    except Exception as e:
         print(e)
-        code = 1; text = e
-
-    else:  
-        res = res.content
-        soup = BeautifulSoup(res, 'html.parser')
-        body = soup.select_one("body")
-        body = str(body)
-        body = re.sub("<body.*>", "", body)
-        body = re.sub("</body>", "", body)
-        code = 0; text = body
-
-    return {'code' : code , 'text' : text}
+        code = 1; text = str(e)
+    finally:
+        return {'code' : code , 'text' : text}
 
 
 #--------------------------------------------------------------------------

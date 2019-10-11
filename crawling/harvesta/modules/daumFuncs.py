@@ -36,18 +36,16 @@ def getNewsList(search_words, cnt):
     while len(news_list) < cnt: # cnt개 채울 때 까지
         try:
             res = requests.get(furl + enc_text + surl + str(i) + lurl)
-        except Exception as e:
-            print(e)
-        else:
             soup = BeautifulSoup(res.content, 'html.parser')
             urlname = soup.select(".f_link_b")
             urllink = soup.select("a[class*=f_link_b]")
-            if len(urlname) == 0: break
+            if len(urlname) == 0: break # 뉴스가 모자라면 그만 둠
             for list1, list2 in zip(urlname, urllink):
-                if len(news_list) >= cnt: break # cnt개 채우면 중단
+                if len(news_list) >= cnt: break # 뉴스를 다 채우면 중단
                 news_list.append({"title" : list1.text, "link" : list2.get('href')})
-        finally:
-            i += 1
+            i += 1 # 다음 페이지
+        except Exception as e:
+            print(e)     
 
     return news_list
 

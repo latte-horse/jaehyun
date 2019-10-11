@@ -17,7 +17,8 @@ def getNewsList(search_words, cnt):
     base_url = 'https://www.google.co.kr/search?q='
     suffix1 = "&tbm=nws&start="
     suffix2 = "&sa=N"
-    # header = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'}
+    # header = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 \
+    #     (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'}
     p = re.compile(r"\?q=.*&sa")
 
     news_list = []
@@ -26,20 +27,16 @@ def getNewsList(search_words, cnt):
         try:
             res = requests.get(
                 base_url + enc_text + suffix1 + str(start) + suffix2)
-                # headers=header).text
-            # with open("text.html", "w", encoding="utf-8") as fp:
-            #     fp.write(res)
-        except Exception as e:
-            print(e)
-        else:
+
+            #블럭 당하면 caller 에게 -1로 알림
             if re.compile(r"Our systems have detected").search(res.text):
-                return -1 #블럭 당했으므로 caller 에게 알림
+                return -1 
 
             soup =  BeautifulSoup(res.content, 'html.parser')
             cand_list = soup.select('#ires ol div table h3 a')
-            if len(cand_list) == 0: break
+            if len(cand_list) == 0: break   # 뉴스가 모자라면 그만둠
             for cand in cand_list:
-                if len(news_list) >= cnt: break
+                if len(news_list) >= cnt: break # 다 채웠으면 그만둠
                 m = p.search(cand.get('href'))
                 if m:
                     link = m.group()[3:-3]
@@ -48,8 +45,10 @@ def getNewsList(search_words, cnt):
                         'link' : urllib.parse.unquote(link).strip() })
                 else:
                     print("skipped: " + cand.get('href'))
+        except Exception as e:
+            print(e)
         finally:
-            start += 10
+            start += 10 # 다음 페이지
             wait = round(random.uniform(0, 2.5), 1)
             print("random sleep {} sec...".format(wait))
             time.sleep(wait)
@@ -62,4 +61,4 @@ def getNewsList(search_words, cnt):
 #--------------------------------------------------------------------------
 if __name__ == "__main__":
     news_list = getNewsList("검찰 개혁", 3) # 뉴스 11개 테스트
-    print(news_list) 
+    print(news_list)
