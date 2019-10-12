@@ -56,8 +56,7 @@ def getNewsList(search_words, cnt):
             for news in news_list:
                 result_list.append({ 
                     'title' : re.sub("<[^>]*>", '', news['title']),
-                    'link' : news['originallink']})
-            
+                    'link' : news['originallink'] != '' and news['originallink'] or news['link']})
         else:
             print("Error Code:" + rescode)
    
@@ -72,4 +71,5 @@ if __name__ == "__main__":
     naver_keywords = getKeywords(120)
     print(naver_keywords)
     import config
-    print(getNewsList(naver_keywords[0], 3)) #1 키워드 1 뉴스 테스트
+    news_list = getNewsList("미대륙 횡단열차", 30) #1 키워드 1 뉴스 테스트
+    for news in news_list: print(news)
