@@ -9,7 +9,7 @@ import re
 #--------------------------------------------------------------------------
 # 데이터 프레임에 담는 헬퍼 함수
 #--------------------------------------------------------------------------
-def insertDFRow(df, keyword_source, keywords, i, news_source, news_list):
+def insert_dfrow(df, keyword_source, keywords, i, news_source, news_list):
     if news_source != 'Twitter':
         for j, news in enumerate(news_list):
             df.loc[len(df.index)] = [
@@ -23,7 +23,7 @@ def insertDFRow(df, keyword_source, keywords, i, news_source, news_list):
 #--------------------------------------------------------------------------
 # URL의 <body>만 추출해오는 함수
 #--------------------------------------------------------------------------    
-def getBody(url):
+def getbody(url):
     # Browser fake
     headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 \
         (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'}
@@ -42,6 +42,6 @@ def getBody(url):
 # module test code
 #--------------------------------------------------------------------------
 if __name__ == "__main__":
-    body = getBody("http://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0700&key=20191010.99099004655")
+    body = getbody("http://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0700&key=20191010.99099004655")
  
     print(body)

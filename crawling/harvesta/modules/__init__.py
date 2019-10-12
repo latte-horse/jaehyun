@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-__all__ = ["naverFuncs", "daumFuncs", "googleFuncs", "twFuncs", "util"]
+__all__ = ["naverfuncs", "daumfuncs", "googlefuncs", "twitterfuncs", "util"]
 
 from . import config
-from . import naverFuncs
-from . import daumFuncs
-from . import googleFuncs
-from . import twFuncs
+from . import naverfuncs
+from . import daumfuncs
+from . import googlefuncs
+from . import twitterfuncs
 from . import util

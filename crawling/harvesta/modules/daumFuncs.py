@@ -25,36 +25,36 @@ def getKeywords():
 #--------------------------------------------------------------------------
 # 검색어로 뉴스를 검색하여 cnt개 반환
 #--------------------------------------------------------------------------
-def getNewsList(search_words, cnt):
-    enc_text = urllib.parse.quote(search_words)
+def get_newslist(search_words, cnt):
+    encText = urllib.parse.quote(search_words)
     furl = "https://search.daum.net/search?w=news&sort=recency&q="
     surl = "&cluster=n&DA=STC&s=NS&a=STCF&dc=STC&pg=1&r=1&p="
     lurl = "&rc=1&at=more&sd=&ed=&period="
 
-    news_list = []
+    newsList = []
     i = 0
-    while len(news_list) < cnt: # cnt개 채울 때 까지
+    while len(newsList) < cnt: # cnt개 채울 때 까지
         try:
-            res = requests.get(furl + enc_text + surl + str(i) + lurl)
+            res = requests.get(furl + encText + surl + str(i) + lurl)
             soup = BeautifulSoup(res.content, 'html.parser')
             urlname = soup.select(".f_link_b")
             urllink = soup.select("a[class*=f_link_b]")
             if len(urlname) == 0: break # 뉴스가 모자라면 그만 둠
             for list1, list2 in zip(urlname, urllink):
-                if len(news_list) >= cnt: break # 뉴스를 다 채우면 중단
-                news_list.append({"title" : list1.text, "link" : list2.get('href')})
+                if len(newsList) >= cnt: break # 뉴스를 다 채우면 중단
+                newsList.append({"title" : list1.text, "link" : list2.get('href')})
             i += 1 # 다음 페이지
         except Exception as e:
             print(e)     
 
-    return news_list
+    return newsList
 
 
 #--------------------------------------------------------------------------
 # module test code
 #--------------------------------------------------------------------------
 if __name__ == "__main__":
-    daum_keywords = getKeywords()
-    print(daum_keywords)
-    print(getNewsList(daum_keywords[0], 3)) #1 키워드 1 뉴스 테스트
+    daumkeywords = getKeywords()
+    print(daumkeywords)
+    print(get_newslist(daumkeywords[0], 3)) #1 키워드 1 뉴스 테스트
 
