@@ -1,0 +1,8 @@
+#config.py
+
+#--------------------------------------------------------------------------------
+# NAVER Developpers
+# https://developers.naver.com
+#--------------------------------------------------------------------------------
+clientID = "ooOooOOOOOOOOoooooOoO"
+clientSecret = "oOoOoooOoooO"

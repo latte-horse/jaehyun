@@ -1,6 +1,4 @@
-__all__ = ["config", "twWoeid", "twTrends", "twSearch"]
+__all__ = ["config", "twFuncs"]
 
 from . import config
-from . import twWoeid
-from . import twTrends
-from . import twSearch
+from . import twFuncs

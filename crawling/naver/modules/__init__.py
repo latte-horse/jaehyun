@@ -1,4 +1,4 @@
 __all__ = ['config', 'naverFuncs']
 
-from .config import *
-from .naverFuncs import *
+from . import config
+from . import naverFuncs
