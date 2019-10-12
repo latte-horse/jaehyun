@@ -35,10 +35,10 @@ access_secret = "ooOOooOOoooOooOoOoooOooOooooOooOooOooOooOooOoO"
 
 - `harvesta.py` : 메인 코드
 - `modules/__init__.py`
-- ```modules/daumFuncs.py``` : 희수씨가 작성한 DAUM 크롤러를 모듈화
-- `modules/naverFuncs.py` : NAVER 크롤링 관련 모듈
-- `moduels/googleFuncs.py` : Google 크롤링 관련 모듈(이걸 쓰면 구글이 블락하여 다른 방법을 사용하여야 할 듯)
-- `modules/twFuncs.py` : 트위터 크롤링 관련 모듈
+- ```modules/daumfuncs.py``` : 희수씨가 작성한 DAUM 크롤러를 모듈화
+- `modules/naverfuncs.py` : NAVER 크롤링 관련 모듈
+- `moduels/googlefuncs.py` : Google 크롤링 관련 모듈(이걸 쓰면 구글이 블락하여 다른 방법을 사용하여야 할 듯)
+- `modules/twitterfuncs.py` : 트위터 크롤링 관련 모듈
 - `config.py.sample` : 각종 키 설정 샘플 파일
 - `requirements.txt` : 설치해야할 패키지 목록
 - 기타
