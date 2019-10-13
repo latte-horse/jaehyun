@@ -377,7 +377,7 @@ if __name__ == "__main__":
     # #     "r", encoding="utf-8")
     # # text = fp_src.read()
     # fp_src.close()
-    text = "<p>첫 줄</p>\n<p>둘째 줄</p>\n<p>셋쩨 줄</p>"
+    text = "<p>첫 줄</p>\n<p>둘째 줄</p>\n<p>셋째 줄</p>"
     text = re.sub(r"</p>", "\n</p>", text)
     print(text)
 

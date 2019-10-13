@@ -35,7 +35,6 @@ def get_newslist(search_words, cnt):
     i = 1
     while len(newsList) < cnt: # cnt개 채울 때 까지
         try:
-            print(furl + encText + surl + str(i) + lurl)
             res = requests.get(furl + encText + surl + str(i) + lurl)
             soup = BeautifulSoup(res.content, 'html.parser')
             urlname = soup.select(".f_link_b")
