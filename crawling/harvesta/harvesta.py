@@ -54,7 +54,7 @@ for keywordSource in keywordsource_dic.keys():
             googleList = googlefuncs.get_newslist(keywords, 30)
             if googleList != -1:
                 util.insert_dfrow(
-                    df, keywordSource, keywords, i, 'Google', daumList)
+                    df, keywordSource, keywords, i, 'Google', googleList)
             else:
                 print("!"*10 + " Google blocks us " + "!"*10)
                 doGoogling = False
