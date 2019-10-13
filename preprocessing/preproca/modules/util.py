@@ -4,14 +4,10 @@
 import os
 import re
 
-rootpath = "c:\\harvesta_output"
-
 #------------------------------------------------------------------------------
 # "yyMMdd\\hhmm" 형식의 패스를 주면 모든 하위 파일 리스트를 넘겨주는 모듈
 #------------------------------------------------------------------------------
 def get_filelist(path):
-    path = os.path.join(rootpath, path)
-
     # 모든 하위 디렉토리 풀 패스 생성
     kDirList = list(map(
         lambda x : os.path.join(path, x), os.listdir(path)))
@@ -35,14 +31,11 @@ def get_filelist(path):
 # "yyMMdd\\hhmm" 형식의 패스를 주면 모든 DONE 문서를 삭제하는 함수(개발용)
 #------------------------------------------------------------------------------
 def remove_done(path):
-    path = os.path.join(rootpath, path)
-
     # 모든 하위 디렉토리 풀 패스 생성
     kDirList = list(map(lambda x : os.path.join(path, x), 
         os.listdir(path)))
-    # 디렉토리만 남기기
-    for i, elem in enumerate(kDirList):
-        if not os.path.isdir(elem): kDirList.pop(i)
+    kDirList = list(filter(
+        lambda x : os.path.isdir(x), kDirList))
 
     # 모든 하위 디렉토리의 모든 파일을 하나의 리스트에 담기
     targetList = []
@@ -62,6 +55,6 @@ def remove_done(path):
 # module test code
 #------------------------------------------------------------------------------
 if __name__ == "__main__":
-    target_list = get_filelist("191012\\1150")
-    for i, filepath in enumerate(target_list): print(str(i) + " " + filepath)
-    # removeDone("191012\\1150")
+    targetList = get_filelist("c:\\harvesta_output\\" + "191012\\1150")
+    for i, filepath in enumerate(targetList): print(str(i) + " " + filepath)
+    remove_done("c:\\harvesta_output\\" + "191012\\1150")
