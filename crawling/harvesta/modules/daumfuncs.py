@@ -32,9 +32,10 @@ def get_newslist(search_words, cnt):
     lurl = "&rc=1&at=more&sd=&ed=&period="
 
     newsList = []
-    i = 0
+    i = 1
     while len(newsList) < cnt: # cnt개 채울 때 까지
         try:
+            print(furl + encText + surl + str(i) + lurl)
             res = requests.get(furl + encText + surl + str(i) + lurl)
             soup = BeautifulSoup(res.content, 'html.parser')
             urlname = soup.select(".f_link_b")
@@ -56,5 +57,7 @@ def get_newslist(search_words, cnt):
 if __name__ == "__main__":
     daumkeywords = getKeywords()
     print(daumkeywords)
-    print(get_newslist(daumkeywords[0], 3)) #1 키워드 1 뉴스 테스트
+    newsList = get_newslist(daumkeywords[0], 20) #1 키워드 
+    for news in newsList:
+        print(news['title'])
 
