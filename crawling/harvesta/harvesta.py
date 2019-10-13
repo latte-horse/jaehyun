@@ -11,6 +11,8 @@ import shutil
 from datetime import datetime
 import pandas as pd
 
+# 시작 시간
+stime = time.time()
 
 #------------------------------------------------------------------------------
 # 검색어 list 수집
@@ -67,19 +69,6 @@ print("모든 뉴스 링크 수집 완료")
 
 
 #------------------------------------------------------------------------------
-# 코드 작성 중엔 잦은 뉴스 수집으로 블럭 당할 수 있으니 재사용 용도로 결과를 저장
-# 릴리즈 시 주석처리
-#------------------------------------------------------------------------------
-# df.to_csv("output.csv", mode='w', index=False, encoding="utf-8")
-# df_tw.to_csv("output_tw.csv", mode='w', index=False, encoding="utf-8")
-# del(df)
-# del(df_tw)
-# # 이 위를 모두 주석 처리하고 테스트
-# df = pd.read_csv('output.csv')
-# df_tw = pd.read_csv('output_tw.csv')
-
-
-#------------------------------------------------------------------------------
 # 약속된 디렉토리 상위 구조 생성
 #------------------------------------------------------------------------------
 now = datetime.now()
@@ -89,6 +78,20 @@ outputRoot = "c:\\harvesta_output" + \
 # 디렉토리 존재 시 모두 삭제 후 새로 생성
 if os.path.isdir(outputRoot): shutil.rmtree(outputRoot)
 if not(os.path.isdir(outputRoot)): os.makedirs(outputRoot)
+
+
+# #------------------------------------------------------------------------------
+# # 코드 작성 중엔 잦은 뉴스 수집으로 블럭 당할 수 있으니 재사용 용도로 결과를 저장
+# # 릴리즈 시 주석처리
+# #------------------------------------------------------------------------------
+# csvPathName = os.path.join(outputRoot, "output.csv")
+# csvTwPathName = os.path.join(outputRoot, "output_tw.csv")
+# df.to_csv(csvPathName, mode='w', index=False, encoding="utf-8")
+# df_tw.to_csv(csvTwPathName, mode='w', index=False, encoding="utf-8")
+# del(df)
+# del(df_tw)
+# df = pd.read_csv(csvPathName)
+# df_tw = pd.read_csv(csvTwPathName)
 
 
 #------------------------------------------------------------------------------
@@ -147,3 +150,7 @@ for i in range(count):
             fp.write(row['url'])
 
 print("저장 끝")
+
+# # 걸린 시간 출력
+etime = time.time() - stime
+print("걸린 시간: %dm %02ds" % (etime//60, etime%60) )
