@@ -12,7 +12,8 @@ def get_rulefns():
         common,
         daumnew,
         navernew,
-        magic
+        magic,
+        tomatonews,
     ]
 
 
@@ -231,17 +232,6 @@ def tomatonews(soup):
         core = s; break
     return (True, soup) if not core else (False, core)
 
-
-
-# joynews 뉴스 : 완
-
-def ytnnews(soup):
-    # for s in soup.select(" \
-    #         div#YTN_main_2017 div.header, div#zone1 div.cate, \
-    #         p.copyright_bottom"
-    #     ):
-    #     s.extract()
-    return soup
 
 
 #------------------------------------------------------------------------------
