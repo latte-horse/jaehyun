@@ -1,13 +1,22 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
-#crallwlica.py
+#crawllica.py
 
 from harvesta import harvesta
 from preproca import preproca
 
-# path = harvesta.harvest("c:\\crawllica_output")
-# print(path)
+def doCrawlling(path):
+    outPath = harvesta.harvest("path")
+    print(outPath)
+    return outPath
 
-path = "C:\\crawllica_output\\191014\\1320"
-preproca.preproc(path)
+def  doPreproc(path):
+    preproca.preproc(path)
 
+
+if __name__ == "__main__":
+    # outPath = doCrawlling("c:\\crawllica_output")
+
+    outPath = "C:\\crawllica_output\\191014\\1320"
+    doPreproc(outPath)
+    

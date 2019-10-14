@@ -5,11 +5,14 @@
 from .modules import *
 from bs4 import BeautifulSoup
 import re
+import os
 import time
 
 def preproc(inputRoot):
     # 시작 시간
     stime = time.time()
+    # 로그 파일
+    logfp = open(os.path.join(inputRoot, "log_preproca.txt"), "w", encoding="utf-8")
 
     #------------------------------------------------------------------------------
     # 타겟 파일 리스트 생성
@@ -51,8 +54,14 @@ def preproc(inputRoot):
             text = title
             skipped += 1
 
-        print("{}/{}\t{}\t{}".format(
-            i+1, count, filepath, "skipped" if bNext else ""), flush=True)
+        # 진행사항 출력
+        logtxt = "{}/{}\t{}\t{}".format(
+            i+1, count, filepath, "skipped" if bNext else "")
+        print(logtxt, flush=True)
+        # 스킵된 파일만 로그에 남김
+        if bNext:
+            logfp.write(logtxt + "\n")
+            logfp.flush()
             
         # 글로벌 문자열 치환
         text = rules.common_rm_text(text)
@@ -64,8 +73,12 @@ def preproc(inputRoot):
         with open(path_output, "w", encoding="utf-8") as fp_out:
             fp_out.write(text)
 
-    # 걸린 시간 출력
+    # 결과 출력 및 로그 닫기
     etime = time.time() - stime
-    print("skipped : %d" % skipped)
-    print("걸린 시간: %dm %02ds" % (etime//60, etime%60) )
+    skipSumm = "skipped : %d (%.1f%%)" % (skipped, skipped/count * 100)
+    elapseSumm = "걸린 시간: %dm %02ds" % (etime//60, etime%60)
+    logfp.write(skipSumm+"\n" + elapseSumm+"\n")
+    logfp.close()
+    print(skipSumm)
+    print(elapseSumm )
 

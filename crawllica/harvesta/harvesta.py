@@ -113,7 +113,7 @@ def harvest(rootPath):
     # Suffix Dict.
     initialDic = {'NAVER':'N', 'DAUM':'D', 'Google':'G', 'Twitter':'T'}
     # 로그 파일
-    logfp = open(os.path.join(outputRoot, "log.txt"), "w", encoding="utf-8")
+    logfp = open(os.path.join(outputRoot, "log_harvesta.txt"), "w", encoding="utf-8")
     print("저장 시작")
     #-------------------------------------
     # 일반 뉴스 저장
