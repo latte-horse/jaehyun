@@ -17,11 +17,14 @@ def get_filelist(path):
     # 모든 하위 디렉토리의 모든 파일을 하나의 리스트에 담기
     targetList = []
     for path_keyword  in kDirList:
-        fileList = list(map(
-            lambda x : os.path.join(path_keyword, x), 
-            os.listdir(path_keyword)))
+        fileList = os.listdir(path_keyword)
+        # print(fileList)
         fileList = list(filter(
             lambda x : not re.compile("DONE").search(x), fileList))
+        
+        fileList = [ (file[0], os.path.join(path_keyword, file)) 
+            for file in fileList ]
+            
         targetList += fileList
 
     return targetList
@@ -55,6 +58,7 @@ def remove_done(path):
 # module test code
 #------------------------------------------------------------------------------
 if __name__ == "__main__":
-    targetList = get_filelist("c:\\harvesta_output\\" + "191012\\1150")
-    for i, filepath in enumerate(targetList): print(str(i) + " " + filepath)
-    remove_done("c:\\harvesta_output\\" + "191012\\1150")
+    # targetList = get_filelist("c:\\harvesta_output\\" + "191011\\0940")
+    # for elem in targetList: print(elem)
+    # for i, filepath in enumerate(targetList): print(str(i) + " " + filepath)
+    remove_done("c:\\crawllica_output\\" + "191014\\1320")

@@ -14,13 +14,13 @@ stime = time.time()
 # 타겟 파일 리스트 생성
 #------------------------------------------------------------------------------
 rootpath = "c:\\harvesta_output\\"
-list_target = util.get_filelist(rootpath + "191012\\1150")
+list_target = util.get_filelist(rootpath + "191014\\0910")
 
 #------------------------------------------------------------------------------
 # 개별 파일 전처리 시작
 #------------------------------------------------------------------------------
 count = len(list_target)
-for i, filepath in enumerate(list_target):
+for i, (prefix, filepath) in enumerate(list_target):
     # 로그
     print("{}/{}\t{}".format(i+1, count, filepath), flush=True)
 

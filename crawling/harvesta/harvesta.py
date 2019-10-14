@@ -80,18 +80,18 @@ if os.path.isdir(outputRoot): shutil.rmtree(outputRoot)
 if not(os.path.isdir(outputRoot)): os.makedirs(outputRoot)
 
 
-# #------------------------------------------------------------------------------
-# # 코드 작성 중엔 잦은 뉴스 수집으로 블럭 당할 수 있으니 재사용 용도로 결과를 저장
-# # 릴리즈 시 주석처리
-# #------------------------------------------------------------------------------
-# csvPathName = os.path.join(outputRoot, "output.csv")
-# csvTwPathName = os.path.join(outputRoot, "output_tw.csv")
-# df.to_csv(csvPathName, mode='w', index=False, encoding="utf-8")
-# df_tw.to_csv(csvTwPathName, mode='w', index=False, encoding="utf-8")
-# del(df)
-# del(df_tw)
-# df = pd.read_csv(csvPathName)
-# df_tw = pd.read_csv(csvTwPathName)
+#------------------------------------------------------------------------------
+# 코드 작성 중엔 잦은 뉴스 수집으로 블럭 당할 수 있으니 재사용 용도로 결과를 저장
+# 릴리즈 시 주석처리
+#------------------------------------------------------------------------------
+csvPathName = os.path.join(outputRoot, "output.csv")
+csvTwPathName = os.path.join(outputRoot, "output_tw.csv")
+df.to_csv(csvPathName, mode='w', index=False, encoding="utf-8")
+df_tw.to_csv(csvTwPathName, mode='w', index=False, encoding="utf-8")
+del(df)
+del(df_tw)
+df = pd.read_csv(csvPathName)
+df_tw = pd.read_csv(csvTwPathName)
 
 
 #------------------------------------------------------------------------------
