@@ -10,10 +10,15 @@ from bs4 import BeautifulSoup
 def get_rulefns():
     return  [
         common,
-        daumnew,
-        navernew,
-        magic,
-        tomatonews,
+        # daumnew,
+        # navernew,
+        # magic,
+        # tomatonews,
+        # theviewers,
+        # kyeongin,
+        whitelist,
+        # 마지막 스킵 체크
+        checkskip,
     ]
 
 
@@ -201,37 +206,96 @@ def common(soup):
     #     "".join([r"^.{2,4}(\s|&nbsp;)?기자(\s|&nbsp;)?\(?([a-zA-Z0-9_.+-]+", 
     #     r"@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)(\s|&nbsp;)?\)?"]))
     # rm_by_text_exact(soup, 'li', r"^([0-9]|\.|-|/)+\s?(\(.{1}\))?\s?$")
+    
+    return ("unknown", soup)
 
-    return (True, soup)
+# Whitelist 셀렉터 문자열들
+_selectorList = [
+    # DAUM
+    "div#harmonyContainer.article_view",
+    # NAVER
+    "div#articeBody.article_body",
+    # MAGIC
+    "*[itemprop='articleBody']",
+    # TOMATO 뉴스
+    "article div.rn_scontent section div.rns_text",
+    # The Viewers
+    "form#form1 div.sub-container div.cont-article-top div.cont-area",
+    # 경인일보
+    "div.bm_view div.view_left div#font.view_txt"
+]
+
+def whitelist(soup):
+    for selector in _selectorList:
+        for s in soup.select(selector):
+            return ("whitelist", s)
+    return ("unknown", soup)
 
 # DAUM 뉴스
 def daumnew(soup):
     core = None
     for s in soup.select("div#harmonyContainer.article_view"): 
         core = s; break
-    return (True, soup) if not core else (False, core)
+    return ("unknown", soup) if not core else ("whitelist", core)
 
 # NAVER 뉴스
 def navernew(soup):
     core = None
     for s in soup.select("div#articeBody.article_body"): 
         core = s; break
-    return (True, soup) if not core else (False, core)
+    return ("unknown", soup) if not core else ("whitelist", core)
 
 # MAGIC
 def magic(soup):
     core = None
     for s in soup.select("*[itemprop='articleBody']"): 
         core = s; break
-    return (True, soup) if not core else (False, core)
+    return ("unknown", soup) if not core else ("whitelist", core)
 
 # TOMATO 뉴스
 def tomatonews(soup):
     core = None
     for s in soup.select("article div.rn_scontent section div.rns_text"): 
         core = s; break
-    return (True, soup) if not core else (False, core)
+    return ("unknown", soup) if not core else ("whitelist", core)
 
+# The Viewers
+def theviewers(soup):
+    core = None
+    for s in soup.select("form#form1 div.sub-container \
+            div.cont-article-top div.cont-area"): 
+        core = s; break
+    return ("unknown", soup) if not core else ("whitelist", core)
+
+# 경인일보
+def kyeongin(soup):
+    core = None
+    for s in soup.select("div.bm_view div.view_left div#font.view_txt"): 
+        core = s; break
+    return ("unknown", soup) if not core else ("whitelist", core)
+
+
+# 의도된 스킵 체크
+def checkskip(soup):
+    if soup.text.split("\n")[1] == "None":
+         return ("blacklist", soup)
+
+    skip = False;
+    for s in soup.select("".join([
+            # 미디어펜
+            "div#HeadMenu div#Default_Warp div#MenuBar ul#mega-menu, ",
+            # 더코리아뉴스
+            "div#wrap div div#divMenu div table td \
+                div[style*='z-index:0'] "
+        ])):
+
+        skip = True;
+        break
+                
+    return ("unknown", soup) if not skip else ("blacklist", soup)
+
+# '의도된' 스킵되는 뉴스 사이트
+# 미디어펜
 
 
 #------------------------------------------------------------------------------

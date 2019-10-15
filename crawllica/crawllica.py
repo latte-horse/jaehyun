@@ -6,17 +6,16 @@ from harvesta import harvesta
 from preproca import preproca
 
 def doCrawlling(path):
-    outPath = harvesta.harvest("path")
-    print(outPath)
-    return outPath
+    return harvesta.harvest(path)
 
 def  doPreproc(path):
     preproca.preproc(path)
 
 
 if __name__ == "__main__":
-    # outPath = doCrawlling("c:\\crawllica_output")
+    #outPath = doCrawlling("c:\\crawllica_output")
 
-    outPath = "C:\\crawllica_output\\191014\\1320"
-    doPreproc(outPath)
     
+
+    outPath = "C:\\crawllica_output\\191015\\0920"
+    doPreproc(outPath)

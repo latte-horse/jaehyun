@@ -26,7 +26,7 @@ def preproc(inputRoot):
     # 개별 파일 전처리 시작
     #------------------------------------------------------------------------------
     count = len(list_target)
-    skipped = 0
+    unknown = 0
     for i, (prefix, filepath) in enumerate(list_target):
 
         # 파일 읽고 닫기
@@ -40,26 +40,40 @@ def preproc(inputRoot):
         # 뷰티퓰스프로 떠넘기기
         soup = BeautifulSoup(text, "html.parser")
         # 제목 남기기
-        title = soup.text.split("\n")[0]
+        textlines = soup.text.split("\n")
+        title = textlines[0]
+    
 
         # 제거 룰 적용
-        for func in rules.get_rulefns():
-            bNext, soup = func(soup)
-            if not bNext: break
-        
+        if prefix != "T":
+            # 뉴스
+            if textlines[1] == "None":
+                # body가 없는 문서는 제거 룰 돌리지 않고 건너뜀
+                status = "blacklist"
+            else :
+                for func in rules.get_rulefns():
+                    status, soup = func(soup)
+                    if status != "unknown": break
+                # status, soup = rules.whitelist(soup)
+        else:
+            # 트위터
+            a = 1
+
         # 화이트리스트 통과 했으면 본문만 있으므로 타이틀을 따로 넣어줌
-        if not bNext: 
+        if status == "whitelist": 
             text = "{}\n{}".format(title, soup.text)
+        elif status == "blacklist":
+            text = title
         else: 
             text = title
-            skipped += 1
+            unknown += 1
 
         # 진행사항 출력
         logtxt = "{}/{}\t{}\t{}".format(
-            i+1, count, filepath, "skipped" if bNext else "")
+            i+1, count, filepath, "unknown" if status == "unknown" else "")
         print(logtxt, flush=True)
         # 스킵된 파일만 로그에 남김
-        if bNext:
+        if status == "unknown":
             logfp.write(logtxt + "\n")
             logfp.flush()
             
@@ -75,7 +89,7 @@ def preproc(inputRoot):
 
     # 결과 출력 및 로그 닫기
     etime = time.time() - stime
-    skipSumm = "skipped : %d (%.1f%%)" % (skipped, skipped/count * 100)
+    skipSumm = "unknown : %d (%.1f%%)" % (unknown, unknown/count * 100)
     elapseSumm = "걸린 시간: %dm %02ds" % (etime//60, etime%60)
     logfp.write(skipSumm+"\n" + elapseSumm+"\n")
     logfp.close()
