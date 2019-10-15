@@ -10,14 +10,7 @@ from bs4 import BeautifulSoup
 def get_rulefns():
     return  [
         common,
-        # daumnew,
-        # navernew,
-        # magic,
-        # tomatonews,
-        # theviewers,
-        # kyeongin,
         whitelist,
-        # 마지막 스킵 체크
         checkskip,
     ]
 
@@ -209,7 +202,7 @@ def common(soup):
     
     return ("unknown", soup)
 
-# Whitelist 셀렉터 문자열들
+# 화이트리스트 셀렉터 문자열들
 _selectorList = [
     # DAUM
     "div#harmonyContainer.article_view",
@@ -225,55 +218,12 @@ _selectorList = [
     "div.bm_view div.view_left div#font.view_txt"
 ]
 
+# 화이트리스트 체크
 def whitelist(soup):
     for selector in _selectorList:
         for s in soup.select(selector):
             return ("whitelist", s)
     return ("unknown", soup)
-
-# DAUM 뉴스
-def daumnew(soup):
-    core = None
-    for s in soup.select("div#harmonyContainer.article_view"): 
-        core = s; break
-    return ("unknown", soup) if not core else ("whitelist", core)
-
-# NAVER 뉴스
-def navernew(soup):
-    core = None
-    for s in soup.select("div#articeBody.article_body"): 
-        core = s; break
-    return ("unknown", soup) if not core else ("whitelist", core)
-
-# MAGIC
-def magic(soup):
-    core = None
-    for s in soup.select("*[itemprop='articleBody']"): 
-        core = s; break
-    return ("unknown", soup) if not core else ("whitelist", core)
-
-# TOMATO 뉴스
-def tomatonews(soup):
-    core = None
-    for s in soup.select("article div.rn_scontent section div.rns_text"): 
-        core = s; break
-    return ("unknown", soup) if not core else ("whitelist", core)
-
-# The Viewers
-def theviewers(soup):
-    core = None
-    for s in soup.select("form#form1 div.sub-container \
-            div.cont-article-top div.cont-area"): 
-        core = s; break
-    return ("unknown", soup) if not core else ("whitelist", core)
-
-# 경인일보
-def kyeongin(soup):
-    core = None
-    for s in soup.select("div.bm_view div.view_left div#font.view_txt"): 
-        core = s; break
-    return ("unknown", soup) if not core else ("whitelist", core)
-
 
 # 의도된 스킵 체크
 def checkskip(soup):
@@ -293,10 +243,6 @@ def checkskip(soup):
         break
                 
     return ("unknown", soup) if not skip else ("blacklist", soup)
-
-# '의도된' 스킵되는 뉴스 사이트
-# 미디어펜
-
 
 #------------------------------------------------------------------------------
 # 모듈 테스트 코드
