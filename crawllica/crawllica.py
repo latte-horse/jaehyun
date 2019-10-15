@@ -13,9 +13,7 @@ def  doPreproc(path):
 
 
 if __name__ == "__main__":
-    #outPath = doCrawlling("c:\\crawllica_output")
+    # outPath = doCrawlling("c:\\crawllica_output")
 
-    
-
-    outPath = "C:\\crawllica_output\\191015\\0920"
+    outPath = "C:\\crawllica_output\\191015\\2040"
     doPreproc(outPath)

@@ -4,8 +4,9 @@
 import re
 from bs4 import BeautifulSoup
 
+
 #------------------------------------------------------------------------------
-# 사이트별 개별 전처리 함수 들을 리스트 형태로 반환하는 함수
+# 각각의 목표가 있는 전처리 함수 들을 리스트 형태로 반환하는 함수
 #------------------------------------------------------------------------------
 def get_rulefns():
     return  [
@@ -140,7 +141,7 @@ def common_rm_text(text):
         li = re.sub(r"^뉴스엔\s+.*[a-zA-Z0-9_.+-]+@", "", li)
         li = re.sub(r"^기사제보.*(금지|자료)\s?$", "", li)
         li = re.sub(r"^<?\s?ⓒ.*금지\s?(＞|>)?\s?$", "", li)
-        li = re.sub(r"^-?\s?Copy.*금지\s?-?\s?$", "", li)
+        li = re.sub(r"^-?\s?(C|c)opy.*금지\s?-?\s?$", "", li)
 
         # 기레기 패턴
         li = re.sub(r"^.{0,15}기자\s?$", "", li)
@@ -208,6 +209,9 @@ _selectorList = [
     "div#harmonyContainer.article_view",
     # NAVER
     "div#articeBody.article_body",
+    # NAVER MAIN
+    "div#wrap table td.content div#main_content \
+        div#articleBody.article_body div#articleBodyContents",
     # MAGIC
     "*[itemprop='articleBody']",
     # TOMATO 뉴스
@@ -215,7 +219,48 @@ _selectorList = [
     # The Viewers
     "form#form1 div.sub-container div.cont-article-top div.cont-area",
     # 경인일보
-    "div.bm_view div.view_left div#font.view_txt"
+    "div.bm_view div.view_left div#font.view_txt",
+    # e뉴스페이퍼 
+    "div.mw_basic_view_content div#view_436 div#view_content div#bo_v_con",
+    # 스포츠투데이
+    "div#wrap div#container div#content div.con_box div.view \
+        div.view_article div#article",
+    # 티브에데일리
+    "table[align='center'] table table div#content div#_article table \
+        div.read",
+    # 국제신문
+    "div#wrap div#Contents div#topArea div.leftArea div#news_textArea \
+        div.news_article",
+    # 뉴스투데이 news2day
+    "div#contents div#main-section div#article-area div.article-view \
+        div#news-contents",
+    # 한국증권신문
+    "div.off-canvas-wrapper div.off-canvas-wrapper-inner div#user-wrap \
+        section#user-container div.float-center article.article-veiw-body",
+    # 소비자가만드는신문
+    "div.out_box div.ob_1 div#container div.container div div#content \
+        div#arl_view_box div#arl_view_content.arl_view_content",
+    # 쿠키뉴스
+    "div.container_v2 div.section_h123_v2 div.section_h12_v2 \
+        div.section_12_v2 div.c011_arv div#news_body_area",
+    # 더 셀럽
+    "div.container section div.cont_area div.left_cont \
+        div.news_view_area div.view_news div.read div#CmAdContent",
+    # 폴리뉴스
+    "div.wrapper div.column div.f_left div.theiaStickySidebar \
+        div.arv_001_01 div.news_body_area div#news_body_area",
+    # 비욘드포스트
+    "body[ondragstart='return false'] div.con div.wrap2.tp2 \
+        div.wr2_lt div.v1d div.v1d_con div.vcon div.articleContent",
+    # 채널예스
+    "div#wrapCon div#conWrap div#conArea div#realCon div#articleView \
+        div#articleCont div.txtBox",
+    # 부산일보
+    "div#wrap div#container div.inner div.article_view div.article_content",
+
+    # 아시아타임즈 (태그가 깨져서 처리 안 됨)
+    "div#wrap div.wrap div#main div#subCtsMain div#viewWrap \
+        div#viewConts.viewConts"
 ]
 
 # 화이트리스트 체크
@@ -236,7 +281,20 @@ def checkskip(soup):
             "div#HeadMenu div#Default_Warp div#MenuBar ul#mega-menu, ",
             # 더코리아뉴스
             "div#wrap div div#divMenu div table td \
-                div[style*='z-index:0'] "
+                div[style*='z-index:0'], "
+            # YTN 94.5
+            "div#wrap div#gnb ul#topLink li.b ul li.YTN_CSA_outlink1, "
+            # WIKI TREE
+            "div.wrap div.multi-scroll-wrap div.multi-scroll-inner \
+                div.scroll-zone01 div.scroll-start01 div.scroll-in01 \
+                div.article_wrap div.article_byline span.time, "
+            # 한국스포츠통신
+            "body[onselectstart='return false'] div.off-canvas-wrapper \
+                div.off-canvas-wrapper-inner \
+                div#offCanvas.off-canvas.user-canvas.position-left,"
+            # 남도일보
+            "body > table td[align='center'] div.body-wrap-full \
+                div.head-top div.body-wrap-basic div.edit-btn li.nobr"
         ])):
 
         skip = True;
@@ -248,12 +306,4 @@ def checkskip(soup):
 # 모듈 테스트 코드
 #------------------------------------------------------------------------------
 if __name__ == "__main__":
-    # # fp_src = open("C:\\harvesta_output\\191012\\1150\\D_K_01\\D_28.txt", 
-    # #     "r", encoding="utf-8")
-    # # text = fp_src.read()
-    # fp_src.close()
-    text = "<p>첫 줄</p>\n<p>둘째 줄</p>\n<p>셋째 줄</p>"
-    text = re.sub(r"</p>", "\n</p>", text)
-    print(text)
-
-    soup = BeautifulSoup(text, "html.parser")
+    None

@@ -26,7 +26,9 @@ def preproc(inputRoot):
     # 개별 파일 전처리 시작
     #------------------------------------------------------------------------------
     count = len(list_target)
+    whitelist = 0
     unknown = 0
+    useless = 0
     for i, (prefix, filepath) in enumerate(list_target):
 
         # 파일 읽고 닫기
@@ -62,8 +64,10 @@ def preproc(inputRoot):
         # 화이트리스트 통과 했으면 본문만 있으므로 타이틀을 따로 넣어줌
         if status == "whitelist": 
             text = "{}\n{}".format(title, soup.text)
+            whitelist += 1
         elif status == "blacklist":
             text = title
+            useless += 1
         else: 
             text = title
             unknown += 1
@@ -89,10 +93,17 @@ def preproc(inputRoot):
 
     # 결과 출력 및 로그 닫기
     etime = time.time() - stime
-    skipSumm = "unknown : %d (%.1f%%)" % (unknown, unknown/count * 100)
+    uselessSumm = "Useless : %d (%.1f%%)" % (useless, useless/count * 100)
+    unknownSumm = "Unknown : %d (%.1f%%)" % (unknown, unknown/count * 100)
+    hitSumm = "Hit : %d (%.1f%%)" % (whitelist, whitelist/count * 100)
     elapseSumm = "걸린 시간: %dm %02ds" % (etime//60, etime%60)
-    logfp.write(skipSumm+"\n" + elapseSumm+"\n")
+    logfp.write(uselessSumm + "\n")
+    logfp.write(unknownSumm + "\n")
+    logfp.write(hitSumm + "\n")
+    logfp.write(elapseSumm + "\n")
     logfp.close()
-    print(skipSumm)
+    print(uselessSumm)
+    print(unknownSumm)
+    print(hitSumm)
     print(elapseSumm )
 

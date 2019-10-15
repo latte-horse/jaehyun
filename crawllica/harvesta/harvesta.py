@@ -35,7 +35,8 @@ def harvest(rootPath):
     # 뉴스 URL list 수집
     #--------------------------------------------------------------------------
     # 편의상 데이터 프레임 사용
-    colnames = ['ksource', 'keywords', 'knum', 'nsource', 'nnum', 'title', 'url']
+    colnames = ['ksource', 'keywords', 'knum', 'nsource', 'nnum', 'title', 
+          'url']
     df = pd.DataFrame(columns=colnames)
     df_tw = pd.DataFrame(columns=colnames)
     print("Collecting News list. Please wait...  ")
@@ -124,11 +125,11 @@ def harvest(rootPath):
         row = df.iloc[i]
         # keyword 폴더 생성 ex) D_K_01
         dirpath = os.path.join(outputRoot, 
-            "%s_K_%02d" % (initialDic[row['ksource']], row['knum'] + 1))
+            "%s_K_%02d" % (initialDic[row['ksource']], row['knum']))
         if not(os.path.isdir(dirpath)): os.makedirs(dirpath)
         # 파일 저장 패스 생성 ex) D_01.txt
         filepath = os.path.join(dirpath, 
-            "%s_%02d.txt" % (initialDic[row['nsource']], row['nnum'] + 1))
+            "%s_%02d.txt" % (initialDic[row['nsource']], row['nnum']))
             
         # html 가져오기 성공 시 파일 생성
         body = util.getbody(row['url'])
@@ -151,11 +152,11 @@ def harvest(rootPath):
         row = df_tw.iloc[i]
         # keyword 폴더 생성 ex) D_K_01
         dirpath = os.path.join(outputRoot, 
-            "%s_K_%02d" % (initialDic[row['ksource']], row['knum'] + 1))
+            "%s_K_%02d" % (initialDic[row['ksource']], row['knum']))
         if not(os.path.isdir(dirpath)): os.makedirs(dirpath)
         # 파일 저장 패스 생성 ex) D_01.txt
         filepath = os.path.join(dirpath, 
-            "%s_%02d.txt" % (initialDic[row['nsource']], row['nnum'] + 1))
+            "%s_%02d.txt" % (initialDic[row['nsource']], row['nnum']))
 
         # tweets 가져오기 성공 시 파일 생성(타입이 str 일 경우만 저장)
         if type(row['url']) == type(""):

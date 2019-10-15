@@ -32,6 +32,7 @@ def get_newslist(search_words, cnt):
     lurl = "&rc=1&at=more&sd=&ed=&period="
 
     newsList = []
+    oldLast = "I'm Old"
     i = 1
     while len(newsList) < cnt: # cnt개 채울 때 까지
         try:
@@ -41,7 +42,16 @@ def get_newslist(search_words, cnt):
             urllink = soup.select("a[class*=f_link_b]")
             urllink = [ re.sub(r"\?f=o", "", url.get('href')) 
                     for url in urllink ]
-            if len(urlname) == 0: break # 뉴스가 모자라면 그만 둠
+            # 뉴스가 모자라면 그만 둠
+            if len(urlname) == 0: 
+                break 
+
+            # 같은 뉴스면 그만 둠
+            currentLast = urllink[len(urllink)-1]
+            if currentLast == oldLast: 
+                break 
+            oldLast = currentLast
+            
             for list1, list2 in zip(urlname, urllink):
                 if len(newsList) >= cnt: break # 뉴스를 다 채우면 중단
                 newsList.append({"title" : list1.text, "link" : list2})
