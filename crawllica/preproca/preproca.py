@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #preproca.py
 
 from .modules import *
@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import re
 import os
 import time
+import html
 
 def preproc(inputRoot):
     # 시작 시간
@@ -34,10 +35,13 @@ def preproc(inputRoot):
         # 파일 읽고 닫기
         with open(filepath, "r", encoding="utf-8") as fp:
             text = fp.read()
+        # 원본 파일 지우기
+        os.remove(filepath)
         
         # 문장 단위 처리 편의성을 위해서 개행 추가
         text = re.sub(r"</p>", "</p>\n", text)
-        text = re.sub(r"<br/?>", "\n", text)
+        text = re.sub(r"<br/?>", "<br/>\n", text)
+
 
         # 뷰티퓰스프로 떠넘기기
         soup = BeautifulSoup(text, "html.parser")
@@ -58,12 +62,14 @@ def preproc(inputRoot):
                     if status != "unknown": break
                 # status, soup = rules.whitelist(soup)
         else:
-            # 트위터
-            a = 1
+            status, soup = rules.tweetsweep(soup)
 
         # 화이트리스트 통과 했으면 본문만 있으므로 타이틀을 따로 넣어줌
         if status == "whitelist": 
             text = "{}\n{}".format(title, soup.text)
+            whitelist += 1
+        elif status == "twitter": 
+            text = soup.text
             whitelist += 1
         elif status == "blacklist":
             text = title
@@ -71,6 +77,10 @@ def preproc(inputRoot):
         else: 
             text = title
             unknown += 1
+
+        # 글로벌 문자열 치환
+        text = rules.common_rm_text(text)
+        # print(text)
 
         # 진행사항 출력
         logtxt = "{}/{}\t{}\t{}".format(
@@ -81,11 +91,6 @@ def preproc(inputRoot):
             logfp.write(logtxt + "\n")
             logfp.flush()
             
-        # 글로벌 문자열 치환
-        text = rules.common_rm_text(text)
-        # for debugging
-        # print(text)
-
         #결과 파일 생성
         path_output = filepath[:-4] + "_DONE.txt"
         with open(path_output, "w", encoding="utf-8") as fp_out:

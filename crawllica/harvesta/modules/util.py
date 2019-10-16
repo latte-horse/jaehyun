@@ -12,9 +12,10 @@ import re
 def insert_dfrow(df, keyword_source, keywords, i, news_source, news_list):
     if news_source != 'Twitter':
         for j, news in enumerate(news_list):
+            title = BeautifulSoup(news['title'], 'html.parser').text
             df.loc[len(df.index)] = [
                 keyword_source, keywords, i+1, news_source, j+1, 
-                news['title'], news['link']]
+                title, news['link']]
     else:
         for j, tweets in enumerate(news_list):
             df.loc[len(df.index)] = [

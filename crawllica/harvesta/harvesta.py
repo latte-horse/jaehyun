@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #harvesta.py
 
 __all__ = ["harvest"]
@@ -86,9 +86,11 @@ def harvest(rootPath):
     # 약속된 디렉토리 상위 구조 생성
     #--------------------------------------------------------------------------
     now = datetime.now()
-    outputRoot = rootPath + \
-        "\\%d%d%02d" % (now.year % 100, now.month, now.day) + \
-        "\\%02d%02d" % (now.hour, now.minute // 10 * 10)
+    outputRoot = os.path.join(
+        rootPath,
+        "%d%d%02d" % (now.year % 100, now.month, now.day), 
+        "%02d%02d" % (now.hour, now.minute // 10 * 10)
+    )
     # 디렉토리 존재 시 모두 삭제 후 새로 생성
     if os.path.isdir(outputRoot): shutil.rmtree(outputRoot)
     if not(os.path.isdir(outputRoot)): os.makedirs(outputRoot)
@@ -102,10 +104,10 @@ def harvest(rootPath):
     csvTwPathName = os.path.join(outputRoot, "output_tw.csv")
     df.to_csv(csvPathName, mode='w', index=False, encoding="utf-8")
     df_tw.to_csv(csvTwPathName, mode='w', index=False, encoding="utf-8")
-    del(df)
-    del(df_tw)
-    df = pd.read_csv(csvPathName)
-    df_tw = pd.read_csv(csvTwPathName)
+    # del(df)
+    # del(df_tw)
+    # df = pd.read_csv(csvPathName)
+    # df_tw = pd.read_csv(csvTwPathName)
 
 
     #--------------------------------------------------------------------------
@@ -165,8 +167,14 @@ def harvest(rootPath):
 
     print("저장 끝")
 
-    # # 걸린 시간 출력
+    # 걸린 시간 출력
     etime = time.time() - stime
-    print("걸린 시간: %dm %02ds" % (etime//60, etime%60) )
+    scrappedSumm = "수집한 문서 개수: %d개" % (len(df) + len(df_tw))
+    elapsedSumm = "걸린 시간: %dm %02ds" % (etime//60, etime%60)
+    logfp.write(scrappedSumm + "\n")
+    logfp.write(elapsedSumm + "\n")
+    logfp.close()
+    print(scrappedSumm)
+    print(elapsedSumm)
 
     return outputRoot

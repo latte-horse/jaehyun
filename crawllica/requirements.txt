@@ -3,6 +3,7 @@ yweather
 Twitter
 numpy
 pandas
+requests
 
 
 
