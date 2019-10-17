@@ -1,0 +1,81 @@
+1호선	NNP
+2호선	NNP
+3호선	NNP
+4호선	NNP
+5호선	NNP
+6호선	NNP
+7호선	NNP
+8호선	NNP
+9호선	NNP
+1 호선	NNP
+2 호선	NNP
+3 호선	NNP
+4 호선	NNP
+5 호선	NNP
+6 호선	NNP
+7 호선	NNP
+8 호선	NNP
+9 호선	NNP
+서울철도공사 NNP
+1일	NNP
+2일	NNP
+3일	NNP
+4일	NNP
+5일	NNP
+6일	NNP
+7일	NNP
+8일	NNP
+9일	NNP
+10일	NNP
+11일	NNP
+12일	NNP
+13일	NNP
+14일	NNP
+15일	NNP
+16일	NNP
+17일	NNP
+18일	NNP
+19일	NNP
+20일	NNP
+21일	NNP
+22일	NNP
+23일	NNP
+24일	NNP
+25일	NNP
+26일	NNP
+27일	NNP
+28일	NNP
+29일	NNP
+30일	NNP
+31일	NNP
+1 일	NNP
+2 일	NNP
+3 일	NNP
+4 일	NNP
+5 일	NNP
+6 일	NNP
+7 일	NNP
+8 일	NNP
+9 일	NNP
+10 일	NNP
+11 일	NNP
+12 일	NNP
+13 일	NNP
+14 일	NNP
+15 일	NNP
+16 일	NNP
+17 일	NNP
+18 일	NNP
+19 일	NNP
+20 일	NNP
+21 일	NNP
+22 일	NNP
+23 일	NNP
+24 일	NNP
+25 일	NNP
+26 일	NNP
+27 일	NNP
+28 일	NNP
+29 일	NNP
+30 일	NNP
+31 일	NNP
