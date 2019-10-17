@@ -242,6 +242,7 @@ def common_rm_text(text):
         if li != "": newText.append(li)
 
     text = "\n".join(newText)
+    text = re.sub("\xa0", " ", text)
     return text
 
 
