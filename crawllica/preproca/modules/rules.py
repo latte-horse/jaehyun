@@ -12,7 +12,7 @@ def get_rulefns():
     return  [
         common,
         whitelist,
-        checkskip,
+        blacklist,
     ]
 
 
@@ -113,9 +113,9 @@ def whitelist(soup):
 
 
 #--------------------------------------------------------------------------
-# 의도된 스킵 체크
+# 블랙리스트. 의도된 스킵 체크
 #------------------------------------------------------------------------------
-def checkskip(soup):
+def blacklist(soup):
     if soup.text.split("\n")[1] == "None":
          return ("blacklist", soup)
 

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#googleFuncs.py
+#googlefuncs.py
 
 import urllib.request
 import requests

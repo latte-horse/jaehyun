@@ -97,6 +97,19 @@ def harvest(rootPath):
 
 
     #--------------------------------------------------------------------------
+    # 키워드 저장
+    #--------------------------------------------------------------------------
+    fpKeyword = open(os.path.join(outputRoot, 
+        "keywords.txt"), "w", encoding="utf-8")
+    for keywordSource in keywordsource_dic.keys():
+        keywordsList = keywordsource_dic[keywordSource]
+        for i, keywords in enumerate(keywordsList):
+            fpKeyword.write(
+                "{}\t{}\t{}\n".format(keywordSource, i+1, keywords))
+    fpKeyword.close()
+
+
+    #--------------------------------------------------------------------------
     # 코드 작성 중엔 잦은 뉴스 수집으로 블럭 당할 수 있으니 재사용 용도로 결과를 저장
     # 릴리즈 시 주석처리
     #--------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#twFuncs.py
+#twitterfuncs.py
 
 from twitter import Twitter, OAuth
 import yweather
