@@ -1,11 +1,12 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 #analyza.py
 
-from konlpy.tag import Komoran
+
 from gensim.models import Word2Vec
+from modules import util
 import os
 import re
+import pandas
 
 
 #------------------------------------------------------------------------------
@@ -17,36 +18,42 @@ def do_edit(path):
             re.compile(r"DONE.txt").search(file), os.listdir(path)))
     filelist = list(map(lambda file : os.path.join(path, file), filelist))
 
-    komoran = Komoran()
-    # doc0 = open(filelist[0], 'r', encoding='utf-8').read()
-    # doc1 = re.sub("\xa0", " ", open(filelist[1], 'r', encoding='utf-8').read())
     # tokens  = komoran.pos(doc0, flatten=True)
     # print(komoran.nouns(doc0))
 
-    lines = []
-    for i, file in enumerate(filelist):
-        with open(file, 'r', encoding='utf-8') as fp:
-            while True:
-                try:
-                    line = fp.readline()
-                    if not line: break
-                    line = re.sub("\xa0", " ", line).strip()
-                    if line == "" : continue
-                    tokens = komoran.nouns(line)
-                    if len(tokens) == 0: continue
-                    lines.append(komoran.nouns(line))
-                except Exception as e:
-                    print(e)
-                    continue
-
+    lines = util.getlines(filelist)
 
     model = Word2Vec(lines, 
         size=200, window = 5, min_count=20, workers=4, iter=200, sg=1)
 
-    for i, word in enumerate(model.wv.most_similar(positive="국감", topn=100)):
-        print("%03d\t%s" % (i, word))
 
-    print(len(model.wv.vocab))
+    wv = model.wv
+    del(model)
+
+    vocs = []
+    for key in wv.vocab:
+        vocs.append(key)
+    
+    df =  pandas.DataFrame(columns = vocs , index = vocs)
+    for i in vocs:
+        dists = []
+        for j in vocs:
+            dists.append(wv.distance(i, j))
+        df[i] = dists
+
+    # 분석을 위해 임시 저장
+    df.to_csv("d-matrix.csv", encoding="utf-8")
+
+
+
+
+
+
+    # print(model.wv.distances("발언"))
+
+
+
+
 
 
 
