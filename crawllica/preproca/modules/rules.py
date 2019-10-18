@@ -112,7 +112,7 @@ def whitelist(soup):
     return ("unknown", soup)
 
 
-#--------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # 블랙리스트. 의도된 스킵 체크
 #------------------------------------------------------------------------------
 def blacklist(soup):
@@ -125,17 +125,17 @@ def blacklist(soup):
             "div#HeadMenu div#Default_Warp div#MenuBar ul#mega-menu, ",
             # 더코리아뉴스
             "div#wrap div div#divMenu div table td \
-                div[style*='z-index:0'], "
+                div[style*='z-index:0'], ",
             # YTN 94.5
-            "div#wrap div#gnb ul#topLink li.b ul li.YTN_CSA_outlink1, "
+            "div#wrap div#gnb ul#topLink li.b ul li.YTN_CSA_outlink1, ",
             # WIKI TREE
             "div.wrap div.multi-scroll-wrap div.multi-scroll-inner \
                 div.scroll-zone01 div.scroll-start01 div.scroll-in01 \
-                div.article_wrap div.article_byline span.time, "
+                div.article_wrap div.article_byline span.time, ",
             # 한국스포츠통신
             "body[onselectstart='return false'] div.off-canvas-wrapper \
                 div.off-canvas-wrapper-inner \
-                div#offCanvas.off-canvas.user-canvas.position-left,"
+                div#offCanvas.off-canvas.user-canvas.position-left, ",
             # 남도일보
             "body > table td[align='center'] div.body-wrap-full \
                 div.head-top div.body-wrap-basic div.edit-btn li.nobr"
