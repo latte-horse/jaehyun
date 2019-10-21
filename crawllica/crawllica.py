@@ -19,6 +19,9 @@ if __name__ == "__main__":
         # outPath = "C:\\crawllica_output\\191016\\1710"
         outPath = harvesta.harvest("c:\\crawllica_output")
         doPreproc(outPath)
+        
+        print("DONE.")
+        print("윈도우에서는 analyza 실행 불가.")
 
     
     #--------------------------------

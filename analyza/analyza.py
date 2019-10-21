@@ -92,7 +92,7 @@ if __name__ == "__main__":
     #  Oracle Database에 Insert
     #--------------------------------------------------------------------------
     os.putenv('NLS_LANG', '.UTF8')
-    con = cx_Oracle.connect(config.property_oracle_connection)
+    con = cx_Oracle.connect(config.oracle_connection)
     cur = con.cursor()
     statement = "".join([
             "insert into latte_timeline(yymmdd, hhmm, searchword, visdata) ",
@@ -103,7 +103,7 @@ if __name__ == "__main__":
     con.close()
 
     # 입력 확인 테스트 코드
-    con = cx_Oracle.connect(config.property_oracle_connection)
+    con = cx_Oracle.connect(config.oracle_connection)
     cur = con.cursor()
     statement = "".join([
             "select * from latte_timeline where yymmdd = :1 and hhmm = :2"    
@@ -118,7 +118,7 @@ if __name__ == "__main__":
     # #----------------------------------------
     # # 개별 키워드 테스트 루틴 - 디버깅시 필요!
     # #----------------------------------------
-    # path = "../data/191017/1630/D_K_03/"
+    # path = "../../data/timeline/191017/1630/D_K_01/"
     # path = path[:len(path)-1] if path[len(path)-1] == "/" else path
 
     # # 검색어 추출하기
