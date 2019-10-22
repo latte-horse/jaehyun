@@ -151,7 +151,12 @@ def harvest(rootPath):
         if body['code'] == 0:
             with open(filepath, "w" , encoding="utf-8") as fp:
                 fp.write("{}\n".format(row['title']))
-                fp.write(body['text'])
+                try:
+                    fp.write(body['text'])
+                except Exception as e:
+                    print(e)
+                    logfp.write(str(e))
+                    logfp.flush()
         # 실패시 error 로그 추가
         else:
             errortext = "{}\t{}\t{}\n\n".format(i+1, row['url'], body['text'])
