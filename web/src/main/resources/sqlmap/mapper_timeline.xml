@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+> 
+
+<mapper namespace="lab.latte.issue.dao.ITimelineDAO">
+	
+	<select id="getLastTimeline" resultType="TimelineVO"> 
+		SELECT * FROM (SELECT * FROM latte_timeline ORDER BY yymmdd DESC, hhmm DESC)
+		WHERE rownum = 1
+	</select>
+	
+	<select id="getTimelineByPos" resultType="TimelineVO" parameterType="Integer">
+		SELECT 
+		     yymmdd, hhmm, searchword, visdata
+		FROM (
+		    SELECT 
+		        rownum as rnum, yymmdd, hhmm, searchword, visdata
+		    FROM (
+		        SELECT *
+		        FROM latte_timeline 
+		        ORDER BY yymmdd DESC, hhmm DESC
+		    )
+		    WHERE 
+		    	
+		    	rownum <![CDATA[<=]]> #{pos}
+		    	
+		)
+		WHERE 
+		    rnum = #{pos}
+	
+	</select>
+	
+</mapper>
+
