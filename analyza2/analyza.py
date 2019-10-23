@@ -76,10 +76,11 @@ if __name__ == "__main__":
 
     # 미친 테스트 시작:
     stime = time.time()
-    print("미친 테스트 시작")
+    print("한꺼번에 하기 테스트 시작")
      # 디스턴스 매트릭스 생성
     distDF = word2veca.create_distance_df(hugeDocs, sigwords, 300)
-    distDF.to_csv("hugeVec.csv", encoding="ms949")
+    # # 테스트 저장
+    # distDF.to_csv("hugeVec.csv", encoding="ms949")
     etime = time.time() - stime
     elapsedSumm = "걸린 시간: %dm %02ds" % (etime//60, etime%60)
 
@@ -107,10 +108,10 @@ if __name__ == "__main__":
     hhmm = int(path[divIdx+1:])
     searchword =  json.dumps(searchWords, ensure_ascii=False)
     visdata = json.dumps(visual_data, ensure_ascii=False)
-    # 테스트 저장
-    with open(os.path.join(path, "visdata.txt"), "w", encoding="utf-8-sig") \
-    as fp:
-        fp.write(visdata)
+    # # 테스트 저장
+    # with open(os.path.join(path, "visdata.txt"), "w", encoding="utf-8-sig") \
+    # as fp:
+    #     fp.write(visdata)
 
     #--------------------------------------------------------------------------
     #  Oracle Database에 Insert
@@ -119,7 +120,7 @@ if __name__ == "__main__":
     con = cx_Oracle.connect(config.oracle_connection)
     cur = con.cursor()
     statement = "".join([
-            "insert into latte_timeline2(yymmdd, hhmm, searchword, visdata) ",
+            "insert into latte_timeline(yymmdd, hhmm, searchword, visdata) ",
             "values (:1, :2, :3, :4)"])
     cur.execute(statement, (yymmdd, hhmm, searchword, visdata))
     cur.close()
@@ -130,7 +131,7 @@ if __name__ == "__main__":
     con = cx_Oracle.connect(config.oracle_connection)
     cur = con.cursor()
     statement = "".join([
-            "select * from latte_timeline2 where yymmdd = :1 and hhmm = :2"    
+            "select * from latte_timeline where yymmdd = :1 and hhmm = :2"    
     ])
     cur.execute(statement, (yymmdd, hhmm))
     for row in cur:

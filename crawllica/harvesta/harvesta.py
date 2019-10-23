@@ -196,3 +196,4 @@ def harvest(rootPath):
     print(elapsedSumm)
 
     return outputRoot
+    
