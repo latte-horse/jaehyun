@@ -1,5 +1,6 @@
 # Private Informations
 config.py
+web/target/
 
 # Compiled class file
 *.class
