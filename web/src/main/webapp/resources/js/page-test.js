@@ -88,24 +88,39 @@ function parseTimeline(data){
 	let max = minmax['max'];
 	let nodeVals = []
 	nodes.forEach(function(d, k){
+		
 		val = d['val'];
 		nodeVals.push(val);
-		min = Math.min(min, val);
-		max = Math.max(max, val)
+//		min = Math.min(min, val);
+//		max = Math.max(max, val)
+		
+//		val = Math.pow(val, 1.0/2);
+//		val = val*30;
+		val = Math.max(
+				Math.min(
+					Math.pow(val, 1.0/2)*5
+					, 20
+				)
+				, 2
+			);
+//		val = Math.max(
+//				Math.min(
+//					Math.sqrt(((d['val'] - min) / (max - min))*100)*4
+//					, 20
+//				)
+//				, 5
+//			)
+//		
+		console.log(val + "  = " + d['word']);
+		
 		node = { 
 			"id" : d['id'],
 			"word" : d['word'],
 			"group" : d['group'],
-			"val" : Math.max(
-				Math.min(
-					Math.sqrt(((d['val'] - min) / (max - min))*100)*4
-					, 20
-				)
-				, 2
-			)
+			"val" : val
 		}
 		nodesJson.push(node);
-		console.log(node);
+//		console.log(node);
 	});
 		  			
 		
@@ -114,9 +129,9 @@ function parseTimeline(data){
 	let dmatrix = visdata['dmatrix'];
 	let dlines = dmatrix.split("\n");
 	dlines.pop();
-	dlines.forEach(function(d, i){
-		console.log(d);
-	});
+//	dlines.forEach(function(d, i){
+//		console.log(d);
+//	});
 		
 	let mtrx = []
 	for (j in dlines) {
@@ -153,7 +168,6 @@ function parseTimeline(data){
 			}
 		}
 		tempLinks.forEach(function(d, k){
-			console.log(d);
 			linkJson.push(d);
 		});
 	}  			

@@ -37,7 +37,7 @@
   <script type="text/javascript" src="resources/third-party-etc/three.js"></script>
   <script type="text/javascript" src="resources/third-party-etc/three-spritetext.js"></script>
   <script type="text/javascript" src="resources/third-party-etc/3d-force-graph.min.js"></script>
-  <script type="text/javascript" src="resources/js/page-test.js?1"></script>
+  <script type="text/javascript" src="resources/js/page-test.js"></script>
 
 </body>
 </html>
