@@ -20,7 +20,6 @@
 <body>
 	<h1>Hello, Spring MVC!</h1>
 	<ul>
-		<li><a href="./test">테스트 페이지로 가기</a></li>
 		<li><a href="./3d-test">3d-force-graph 링크 길이 테스트</a></li>
 		<li><a href="./main-test">3d-force-graph 프로토타입 테스트</a></li>
 		<li><a href="./page-test">페이지네이션 테스트</a>
