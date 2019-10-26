@@ -158,6 +158,11 @@ function parseTimeline(data){
 			else
 				dist = Math.pow(dist*5, 4);
 			
+			// 같은 그룹이면 가깝게, 다른 그룹이면 멀게
+			if (nodes[j-1]['group'] == nodes[k-1]['group'])
+				dist = dist*0.9;
+			else
+				dist = dist*2;
 				
 			let forward = {
 				"source" : nodes[j-1]['id'], "target" : nodes[k-1]['id'], 
