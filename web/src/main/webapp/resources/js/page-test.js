@@ -83,7 +83,7 @@ function parseTimeline(data){
 	// 노드 정보 불러오기
 	let nodes = visdata['nodes'];
 	
-	// 디스턴스 매트릭스 가져오고 매트릭스 형태로 변환하기
+	// 디스턴스 매트릭스 불러오고 매트릭스 형태로 변환하기
 	let dmatrix = visdata['dmatrix'];
 	let dlines = dmatrix.split("\n");
 	dlines.pop();
@@ -95,7 +95,7 @@ function parseTimeline(data){
 	let len = mtrx.length;
 	
 	// 노드 JSON 만들기 
-	let distThreshold = 0.7
+	let distThreshold = getThreshould(mtrx);
 	let minmax = getNodeMinMax(nodes);
 	let min = minmax['min'];
 	let max = minmax['max'];
@@ -176,7 +176,7 @@ function parseTimeline(data){
 			if (nodeVals[j-1] < nodeVals[k-1]){
 				tempLinks.push(forward);
 			} else if (nodeVals[j-1] > nodeVals[k-1]){
-				tempLinks.push(reverse)
+				tempLinks.push(reverse);
 			} else {
 				tempLinks.push(forward);
 				tempLinks.push(reverse);
@@ -200,6 +200,33 @@ function getNodeMinMax(nodes){
 	});
 	
 	return {"min" : min, "max" : max}
+}
+
+
+/*-----------------------------------------------------------------------------
+ * 적절한 링크 강도 threshould 만들기
+ * 최대링크 개수 2700개로 제한
+ */
+function getThreshould(mtrx){
+	let len = mtrx.length;
+	let threshould = 0.7;
+	let limitCount = 2700;
+	for (ts = threshould; ts > 0.0; ts-=0.002){
+		let count = 0;	
+		for (j=1; j<len; j++) {
+			for (k=1; k<j; k++){
+				if (mtrx[j][k] <= ts)
+					count++;
+			}
+		}
+		
+		if (count <= limitCount){
+			threshould = ts;
+			break;
+		}
+	}
+	
+	return threshould;
 }
 
 
@@ -239,3 +266,5 @@ function reDrawGalaxy(gData){
 	
 	g_graph.graphData(gData);
 }
+
+
