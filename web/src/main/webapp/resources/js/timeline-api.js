@@ -1,37 +1,6 @@
 /**
- * page-test.js
+ * timeline-api.js
  */
-
-var g_graph;
-var g_linkForce;
-
-$(document).ready(function(){
-	// 최신 정보로 키워드 은하계 그리기
-	initGalaxy('apis/getLastTimeunit', false)
-	
-	// Button
-	$('#btnPrev').click(function(){
-		var toGoNum= Math.abs($('#posNum').val() - 2);
-		pagenation(toGoNum);
-	});
-	
-	$('#btnNext').click(function(){
-		var originNum = $('#posNum').val();
-		if (originNum >= 0)
-			return;
-		toGoNum = Math.abs(originNum);
-		pagenation(toGoNum);
-	});
-	
-	
-	$('#btnGo').click(function(){
-		var toGoNum = $('#toGoNum').val() - 1;
-		if (toGoNum > 0)
-			return;
-		toGoNum = Math.abs(toGoNum);
-		pagenation(toGoNum);
-	});
-});
 
 
 function initGalaxy(){
@@ -53,31 +22,11 @@ function initGalaxy(){
 }
 
 
-function pagenation(toGoNum) {
-	parcel = {'pos' : toGoNum};
-	$.ajax({
-        url: 'apis/getTimeunitByPos',
-        type: 'post',
-        contentType: 'application/json',
-        dataType: 'json',
-        data: JSON.stringify(parcel),
-        success: function(data){
-        	console.log("success: apis/getTimeunitByPos");
-        	$('#posNum').val(1 - toGoNum);
-        	let gData = parseTimeline(data);
-        	reDrawGalaxy(gData);
-        },
-        error: function(equest,status,error) {
-        	console.error("fail: apis/getTimeunitByPos");
-        }
-    });
-}
-
 
 function parseTimeline(data){  		
 	
 	// visdata 가져오기
-	let visdata = JSON.parse(data['visdata']);
+	let visdata = data;
 	console.log(visdata);
 	
 	// 노드 정보 불러오기
@@ -274,5 +223,3 @@ function reDrawGalaxy(gData){
 	
 	g_graph.graphData(gData);
 }
-
-
