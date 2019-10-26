@@ -175,12 +175,20 @@ function parseTimeline(data){
 				
 			if (nodeVals[j-1] < nodeVals[k-1]){
 				tempLinks.push(forward);
+			} else {
+				tempLinks.push(reverse);
+			}	
+			
+			// 중요도가 같은 노드끼리 더 가까이 붙어 시각화가 조금 왜곡되는 문제로 삭제
+			// 소실되는 양방향성 관계 정보는 크게 중요하지 않아 버림.
+			/*
 			} else if (nodeVals[j-1] > nodeVals[k-1]){
 				tempLinks.push(reverse);
 			} else {
 				tempLinks.push(forward);
 				tempLinks.push(reverse);
 			}
+			*/
 		}
 		tempLinks.forEach(function(d, k){
 			linkJson.push(d);
