@@ -95,7 +95,7 @@ function parseTimeline(data){
 	let len = mtrx.length;
 	
 	// 노드 JSON 만들기 
-	let distThreshold = getThreshould(mtrx);
+	let distThreshold = getThreshold(mtrx);
 	let minmax = getNodeMinMax(nodes);
 	let min = minmax['min'];
 	let max = minmax['max'];
@@ -212,14 +212,14 @@ function getNodeMinMax(nodes){
 
 
 /*-----------------------------------------------------------------------------
- * 적절한 링크 강도 threshould 만들기
+ * 적절한 링크 강도 threshold 만들기
  * 최대링크 개수 2700개로 제한
  */
-function getThreshould(mtrx){
+function getThreshold(mtrx){
 	let len = mtrx.length;
-	let threshould = 0.7;
+	let threshold = 0.7;
 	let limitCount = 2700;
-	for (ts = threshould; ts > 0.0; ts-=0.002){
+	for (ts = threshold; ts > 0.0; ts-=0.002){
 		let count = 0;	
 		for (j=1; j<len; j++) {
 			for (k=1; k<j; k++){
@@ -229,12 +229,12 @@ function getThreshould(mtrx){
 		}
 		
 		if (count <= limitCount){
-			threshould = ts;
+			threshold = ts;
 			break;
 		}
 	}
 	
-	return threshould;
+	return threshold;
 }
 
 

@@ -67,7 +67,7 @@ function writeTimeline(yymmdd, hhmm){
         data: JSON.stringify(parcel),
         contentType: 'application/json',
         success: function(data){
-        	console.log("success: " + 'apis/getPastTimeline');
+//        	console.log("success: " + 'apis/getPastTimeline');
         	
         	let past = data.past;
         	let idx = 1;
@@ -105,7 +105,6 @@ function setTimeTravel() {
 		$('#warpDiv').css("display", "inherit");
 		g_timer = setInterval(function(){
 			let opacity = $('#warpDiv').css("opacity")
-			console.log(opacity);
 			if (opacity >= 0.3) {
 				clearInterval(g_timer);
 			} else {

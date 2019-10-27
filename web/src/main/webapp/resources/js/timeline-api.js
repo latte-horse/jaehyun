@@ -10,7 +10,7 @@ function initGalaxy(){
         dataType: 'json',
         contentType: 'application/json',
         success: function(data){
-        	console.log("success: " + 'apis/getLastTimeunit');
+//        	console.log("success: " + 'apis/getLastTimeunit');
         	$('#posNum').val(0);
         	let gData = parseTimeline(data);
         	drawGalaxy(gData);
@@ -27,7 +27,7 @@ function parseTimeline(data){
 	
 	// visdata 가져오기
 	let visdata = data;
-	console.log(visdata);
+//	console.log(visdata);
 	
 	// 노드 정보 불러오기
 	let nodes = visdata['nodes'];
@@ -44,7 +44,7 @@ function parseTimeline(data){
 	let len = mtrx.length;
 	
 	// 노드 JSON 만들기 
-	let distThreshold = getThreshould(mtrx);
+	let distThreshold = getThreshold(mtrx);
 	let minmax = getNodeMinMax(nodes);
 	let min = minmax['min'];
 	let max = minmax['max'];
@@ -161,14 +161,14 @@ function getNodeMinMax(nodes){
 
 
 /*-----------------------------------------------------------------------------
- * 적절한 링크 강도 threshould 만들기
+ * 적절한 링크 강도 threshold 만들기
  * 최대링크 개수 2700개로 제한
  */
-function getThreshould(mtrx){
+function getThreshold(mtrx){
 	let len = mtrx.length;
-	let threshould = 0.7;
+	let threshold = 0.7;
 	let limitCount = 2700;
-	for (ts = threshould; ts > 0.0; ts-=0.002){
+	for (ts = threshold; ts > 0.0; ts-=0.002){
 		let count = 0;	
 		for (j=1; j<len; j++) {
 			for (k=1; k<j; k++){
@@ -178,40 +178,40 @@ function getThreshould(mtrx){
 		}
 		
 		if (count <= limitCount){
-			threshould = ts;
+			threshold = ts;
 			break;
 		}
 	}
 	
-	return threshould;
+	return threshold;
 }
 
 
 function drawGalaxy(gData){
 	g_graph = ForceGraph3D()(document.getElementById('3d-graph')) 	   
-	.nodeAutoColorBy('group')      
-    .nodeThreeObject(node => {
-		const obj = new THREE.Mesh(
-        	new THREE.SphereGeometry(10),
-        	new THREE.MeshBasicMaterial(
-    			{depthWrite: false, transparent: true, opacity: 0}
-        	)
-      	);          
-		const sprite = new SpriteText(node.word);
-			sprite.color = node.color;
- 	    	sprite.textHeight = node.val;
- 	    	obj.add(sprite);
- 	    return obj;
-    })
-	.linkOpacity(0.08)		
-	//.linkDirectionalParticles(3)
-    .graphData(gData);
+		.nodeAutoColorBy('group')      
+		.nodeThreeObject(node => {
+			const obj = new THREE.Mesh(
+		    	new THREE.SphereGeometry(10),
+		    	new THREE.MeshBasicMaterial(
+					{depthWrite: false, transparent: true, opacity: 0}
+		    	)
+		  	);          
+			const sprite = new SpriteText(node.word);
+				sprite.color = node.color;
+		    	sprite.textHeight = node.val;
+		    	obj.add(sprite);
+		    return obj;
+		})
+		.linkOpacity(0.08)		
+		//.linkDirectionalParticles(3)
+		.graphData(gData);
 
 	//g_graph.d3Force('charge').strength(-500);
 
 	const g_linkForce = g_graph
-    	.d3Force('link')
-    	.distance(link => link.dist);
+		.d3Force('link')
+		.distance(link => link.dist);
 }
 
 
@@ -223,3 +223,9 @@ function reDrawGalaxy(gData){
 	
 	g_graph.graphData(gData);
 }
+
+
+
+
+
+
