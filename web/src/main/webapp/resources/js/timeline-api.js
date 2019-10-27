@@ -188,7 +188,13 @@ function getThreshold(mtrx){
 
 
 function drawGalaxy(gData){
-	g_graph = ForceGraph3D()(document.getElementById('3d-graph')) 	   
+	
+	
+	
+    
+	// 그래프 그리기
+	g_graph = ForceGraph3D()(document.getElementById('3d-graph'))
+		.graphData(gData)
 		.nodeAutoColorBy('group')      
 		.nodeThreeObject(node => {
 			const obj = new THREE.Mesh(
@@ -203,15 +209,34 @@ function drawGalaxy(gData){
 		    	obj.add(sprite);
 		    return obj;
 		})
-		.linkOpacity(0.08)		
 		//.linkDirectionalParticles(3)
-		.graphData(gData);
-
+		.linkOpacity(0.08)
+		.nodeVisibility( node => node.val > settings.NodeThreshold);
+		
 	//g_graph.d3Force('charge').strength(-500);
 
+	// 링크거리 조절
 	const g_linkForce = g_graph
 		.d3Force('link')
 		.distance(link => link.dist);
+	
+	
+	// 컨트롤러 장착
+    const Settings = function() {
+      this.NodeThreshold = 4.5;
+      this.Dimensions = 3;
+    };
+	
+    const settings = new Settings();
+	
+	
+    const gui = new dat.GUI();
+    const ctrllr = gui.add(settings, 'NodeThreshold', 0, 19.5);
+    const ctrllr2 = gui.add(settings, 'Dimensions', 1, 3);
+    ctrllr.onChange(() => g_graph.refresh());
+    ctrllr2.onChange(() => {
+    	g_graph.numDimensions(parseInt(settings.Dimensions))
+    });
 }
 
 

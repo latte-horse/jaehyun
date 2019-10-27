@@ -121,6 +121,7 @@
   <script type="text/javascript" src="resources/third-party-etc/three.js"></script>
   <script type="text/javascript" src="resources/third-party-etc/three-spritetext.js"></script>
   <script type="text/javascript" src="resources/third-party-etc/3d-force-graph.min.js"></script>
+  <script type="text/javascript" src="resources/third-party-etc/dat.gui.js"></script>
   <script type="text/javascript" src="resources/js/util.js"></script>
   <script type="text/javascript" src="resources/js/timeline-api.js"></script>
   <script type="text/javascript" src="resources/js/home.js"></script>
