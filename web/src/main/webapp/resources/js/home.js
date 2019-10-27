@@ -123,7 +123,7 @@ function setTimeTravel() {
 		
 		$('#warpDate').val(yymmdd);
 		$('#warpTime').val(hhmm);
-		$('#warp').submit();
+		setTimeout(function(){$('#warp').submit();}, 2000);	
 	}));
 }
 
