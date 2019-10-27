@@ -2,7 +2,11 @@
  * timeline-api.js
  */
 
+var g_colorMap = null;
 
+/*-----------------------------------------------------------------------------
+ * 3d-force-graph 갤럭시 그리기
+ */
 function initGalaxy(){
 	$.ajax({
         url: 'apis/getLastTimeunit',
@@ -22,7 +26,9 @@ function initGalaxy(){
 }
 
 
-
+/*-----------------------------------------------------------------------------
+ * visdata로 nodes와 links 만들기
+ */
 function parseTimeline(data){  		
 	
 	// visdata 가져오기
@@ -147,7 +153,9 @@ function parseTimeline(data){
 	return {nodes : nodesJson, links : linkJson};
 }
 
-
+/*-----------------------------------------------------------------------------
+ * 정규화를 위한 node val의 min, max 구하기
+ */
 function getNodeMinMax(nodes){
 	let min = 100;
 	let max = 0;
@@ -187,11 +195,10 @@ function getThreshold(mtrx){
 }
 
 
+/*-----------------------------------------------------------------------------
+ * 실제 3d-force-graph를 그리는 함수
+ */
 function drawGalaxy(gData){
-	
-	
-	
-    
 	// 그래프 그리기
 	g_graph = ForceGraph3D()(document.getElementById('3d-graph'))
 		.graphData(gData)
@@ -220,10 +227,8 @@ function drawGalaxy(gData){
 		.d3Force('link')
 		.distance(link => link.dist * settings.LinkStrength);
 	
-	
-	
 	// 그래프 조절 세팅 값
-    const Settings = function() {
+    const Settings = function(){
       this.NodeThreshold = 4.5;
       this.LinkStrength = 1;
       this.Dimensions = 3;
@@ -246,6 +251,10 @@ function drawGalaxy(gData){
 }
 
 
+/*-----------------------------------------------------------------------------
+ * ajax 로 다시 그리기 구현시 필요하여 만들었으나, ajax시 가비지 컬렉팅 타이밍에 따라 계속 느려질 수 있어
+ * post 통신으로 새페이지 로드로 바꾸면서 사용하지 않음.
+ */
 function reDrawGalaxy(gData){
 	let {nodes, links} = g_graph.graphData();
 	links = links.filter(l => false);
@@ -256,7 +265,43 @@ function reDrawGalaxy(gData){
 }
 
 
+/*-----------------------------------------------------------------------------
+ * 복잡한 3d-grapsh의 briefing 역할을 하는 계기판을 위해 중요 키워드 추출
+ */
+function getSigwordsMtrx(){
+	let {nodes, links} = g_graph.graphData();
+	
+	let groupSet = new Set();
+	for (node of nodes){
+		let group = node['group'];
+		if(groupSet.has(group))
+			continue;
+		else
+			groupSet.add(group);
+	}
+	
+	let sigwordsMtrx = [];
+	let groups = groupSet.keys()
+	for(group of groups){
+		let nodesSubset = nodes.filter(node => node['group'] == group 
+				&& node['val'] >= 14.5);
+		sigwordsMtrx.push(nodesSubset);
+	}
+	
+	return sigwordsMtrx;
+}
 
-
-
-
+// 색칠공부
+function setSigwordsColor(){
+	g_graph.nodeThreeObjectExtend(node => {
+		let rgb = hexToRgb(node.color);
+		$("ul.sig-ul-inner li[group='" + node.group + "']")
+			.css('background-color',  "rgba(" + rgb.r + ", " + rgb.g 
+				+ ", " + rgb.b + ", 0.7)");
+		return false;
+	});
+	
+	setTimeout(function(){
+		$(".sig-ul-inner li").css("visibility", "visible");
+	}, 1000);
+}

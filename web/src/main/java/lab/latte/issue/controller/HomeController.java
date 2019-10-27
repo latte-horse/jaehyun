@@ -53,14 +53,11 @@ public class HomeController<T, K, V> {
 		int yymmdd = Integer.parseInt((String)reqMap.get("yymmdd")) % 1000000;
 		int hhmm = Integer.parseInt((String)reqMap.get("hhmm"));
 		
-		System.out.println(yymmdd + " " + hhmm);
-		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("yymmdd", yymmdd);
 		map.put("hhmm", hhmm);
 		
 		TimelineVO timeunit = apiService.getTimeunitByTime((Map<K, V>)map);
-		System.out.println(timeunit.getVisdata());
 		model.addAttribute("timeunit", timeunit);
 	
 		return "home";

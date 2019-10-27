@@ -16,13 +16,20 @@ var g_timer;
 $(document).ready(function(){
 	let elData = sweepELData();
 	let gData = parseTimeline(elData['visdata']);
-	setTravelTime(elData['yymmdd'], elData['hhmm']);
 	
+	// 갤럭시 그리기
 	drawGalaxy(gData);
 
+	// 시간여행 계기판 그리기
 	writeTimeline(elData['yymmdd'], zeroPad(elData['hhmm'], 1000));
+	// 계기판에 버튼 기능 넣기
+	setTimeTravel(elData['yymmdd'], elData['hhmm']);
 	
-	setTimeTravel();
+	// 중요 단어 brief 그리기
+	writeSigwords();
+
+
+	
 });
 
 
@@ -41,18 +48,9 @@ function sweepELData(){
 }
 
 
-
-/* ----------------------------------------------------------------------------
- * 현재 보고 있는 정보의 날짜와 시각을 표현 
- */
-function setTravelTime(yymmdd, hhmm){
-	$('#travelDay').html(yymmddFormat(yymmdd));
-	$('#travelTime').html(hhmmFormat(hhmm));
-}
-
-
 /* ----------------------------------------------------------------------------
  * 과거 타임라인과 미래 타임라인을 표현
+ * 시간여행 계기판
  */
 function writeTimeline(yymmdd, hhmm){
 	let parcel = {
@@ -69,6 +67,7 @@ function writeTimeline(yymmdd, hhmm){
         success: function(data){
 //        	console.log("success: " + 'apis/getPastTimeline');
         	
+        	// 과거
         	let past = data.past;
         	let idx = 1;
         	for (let i = past.length-1; i >= 0; i--){
@@ -79,7 +78,13 @@ function writeTimeline(yymmdd, hhmm){
         		$(timeSelector).html(hhmmFormat(""+past[i].hhmm));
         		idx++;
         	}
+        	
+        	// 현재
+        	$('#travelDay').html(yymmddFormat(yymmdd));
+        	$('#travelTime').html(hhmmFormat(hhmm));
+        	$('.travel-center').addClass('brdr-cyan');
 
+        	// 미래
         	let future = data.future;
         	for (let i = 0; i < future.length; i++){
         		let selector = ".time-future " + ".travel-" + (i+1) + " ";
@@ -121,3 +126,29 @@ function setTimeTravel() {
 		$('#warp').submit();
 	}));
 }
+
+
+/* ----------------------------------------------------------------------------
+ * 왼쪽 영역에 중요 키워드들을 그룹 색에 맞추어 표현하기
+ * 중요 키워드 브리핑 역할 
+ */
+function writeSigwords() {
+	let sigwordsMtrx = getSigwordsMtrx();
+	
+	let parent = $('.sig-li-outter');
+	for(nodes of sigwordsMtrx){
+		let ul = $("<ul></ul>", {"class": "sig-ul-inner"});
+		for (node of nodes){
+			$("<li group=\"" + node['group'] + "\">" 
+				+ node['word'] + "</li>").css("color", node['col'])
+				.appendTo(ul);
+		}
+		ul.appendTo(parent);
+		
+	}
+	
+	setSigwordsColor();
+}
+
+
+
