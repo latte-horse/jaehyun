@@ -6,6 +6,7 @@
  * global variables
  */
 var g_graph;
+var g_cp;
 var g_linkForce;
 var g_timer;
 
@@ -27,8 +28,16 @@ $(document).ready(function(){
 	
 	// 중요 단어 brief 그리기
 	writeSigwords();
+	// 중요 단어 클릭 이벤트 넣기
+	addSigClick();
+	setSigwordsColor();
+	// 초기 카메라 위치 저장
+	g_cp = g_graph.cameraPosition();
 
-
+	// 임시 테스트 코드
+	$('nav div h3').click(function(){
+		setCpDefaultIfNothere();
+	});
 	
 });
 
@@ -110,7 +119,7 @@ function setTimeTravel() {
 		$('#warpDiv').css("display", "inherit");
 		g_timer = setInterval(function(){
 			let opacity = $('#warpDiv').css("opacity")
-			if (opacity >= 0.3) {
+			if (opacity >= 0.9) {
 				clearInterval(g_timer);
 			} else {
 				$('#warpDiv').css("opacity", parseFloat(opacity) + 0.005);
@@ -146,9 +155,16 @@ function writeSigwords() {
 		ul.appendTo(parent);
 		
 	}
-	
-	setSigwordsColor();
 }
 
+
+/* ----------------------------------------------------------------------------
+ * 중요 키워드에 클릭 이벤트 할당
+ */
+function addSigClick(){
+	 $("ul.sig-ul-inner li").each((i, li) => $(li).click(function(){
+		 focus2Node(li);
+	 }));
+}
 
 
