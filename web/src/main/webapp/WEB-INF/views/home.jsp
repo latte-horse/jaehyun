@@ -100,10 +100,19 @@
       </ul>
     </div>
     <div id="sigWordsWrap">
-      <ul class="sig-ul-outter">
-        <li class="sig-li-outter">
-        </li>
-      </ul>
+      <table>
+      <tr>
+        <td id="sigBtn">
+          〉
+        </td>
+        <td>
+          <ul class="sig-ul-outter">
+            <li class="sig-li-outter">
+            </li>
+          </ul>
+        </td>
+      </tr>
+      </table>
     </div>
     <!-- Main Contents [END] -->
     

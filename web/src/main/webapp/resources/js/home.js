@@ -31,6 +31,11 @@ $(document).ready(function(){
 	// 중요 단어 클릭 이벤트 넣기
 	addSigClick();
 	setSigwordsColor();
+	// 중요 단에 슬라이드 인/아웃 버튼
+	addSigBtn();
+	// 모두 완료되면 중요 단어 슬라이드 아웃 시키기
+	sigRight();
+	
 	// 초기 카메라 위치 저장
 	g_cp = g_graph.cameraPosition();
 
@@ -166,5 +171,55 @@ function addSigClick(){
 		 focus2Node(li);
 	 }));
 }
+
+
+/* ----------------------------------------------------------------------------
+ * 중요 키워드 슬라이드 인/아웃 구현
+ */
+g_sigIntvlHandle = null;
+g_sig2go = 0;
+function addSigBtn(){
+	$('#sigBtn').click(function(){
+		if ($(this).html().trim() == "〈" ) {
+			sigLeft();
+		} else {
+			sigRight();
+		}
+	});
+}
+
+function sigLeft() {
+	g_sig2go = $("#sigBtn").width() + $('.sig-ul-outter').width();
+	console.log(g_sig2go);
+	g_sigIntvlHandle = setInterval(function(){
+		let lmargin = parseInt(
+				$('.sig-ul-outter').css('margin-left'));
+		if((-1)*lmargin > g_sig2go) {
+			$('.sig-ul-outter').css(
+					'margin-left', ((-1)*g_sig2go - 50) + 'px');
+			clearInterval(g_sigIntvlHandle);
+			$('#sigBtn').html("〉");
+		} else {
+			$('.sig-ul-outter').css('margin-left', (lmargin-20)+'px');
+		}
+	}, 10);
+}
+
+function sigRight() {
+	g_sig2go = 0;//$("#sigBtn").width() + $('.sig-ul-outter').width();
+	g_sigIntvlHandle = setInterval(function(){
+		let lmargin = parseInt(
+				$('.sig-ul-outter').css('margin-left'));
+		if(lmargin >= g_sig2go) {
+			$('.sig-ul-outter').css(
+					'margin-left', g_sig2go+'px');
+			clearInterval(g_sigIntvlHandle);
+			$('#sigBtn').html("〈");
+		} else {
+			$('.sig-ul-outter').css('margin-left', (lmargin+20)+'px');
+		}
+	}, 10);
+}
+
 
 
